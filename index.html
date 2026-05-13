@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Anonymust Mobile Revival</title>
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+      --radius-sm: .5rem; --radius-md: .875rem; --radius-lg: 1.125rem; --radius-xl: 1.5rem; --radius-full: 999px;
+      --color-bg: #f7f6f2; --color-surface: #f9f8f5; --color-surface-2: #ffffff; --color-surface-offset: #efece6; --color-border: #d9d5cf;
+      --color-text: #28251d; --color-text-muted: #6f6b64; --color-text-faint: #a9a59d; --color-text-inverse: #fbfaf7;
+      --color-primary: #0c7b72; --color-primary-hover: #085d57; --color-primary-soft: #dcecea;
+      --color-accent: #f29b7a; --color-accent-soft: #fce6dd; --color-success: #4d7a38; --color-warning: #b06a1f;
+      --shadow-sm: 0 2px 10px rgba(31,29,26,.05); --shadow-md: 0 12px 30px rgba(31,29,26,.09); --shadow-lg: 0 24px 50px rgba(31,29,26,.12);
+      --font-body: 'Satoshi', sans-serif;
+      --phone-w: min(100vw, 430px);
+      --safe-bottom: max(14px, env(safe-area-inset-bottom));
+    }
+    [data-theme="dark"] {
+      --color-bg: #171614; --color-surface: #1d1c19; --color-surface-2: #23211f; --color-surface-offset: #2a2724; --color-border: #383531;
+      --color-text: #ece8df; --color-text-muted: #b6b1a7; --color-text-faint: #7f796f; --color-text-inverse: #161411;
+      --color-primary: #68b6ad; --color-primary-hover: #8bc8c1; --color-primary-soft: #243433;
+      --color-accent: #ffb08f; --color-accent-soft: #3a2a23; --color-success: #8db772; --color-warning: #efb66b;
+      --shadow-sm: 0 2px 10px rgba(0,0,0,.22); --shadow-md: 0 16px 40px rgba(0,0,0,.28); --shadow-lg: 0 24px 50px rgba(0,0,0,.4);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; font-family: var(--font-body); background: radial-gradient(circle at top, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 28%), var(--color-bg); color: var(--color-text); }
+    body { display: grid; place-items: center; padding: var(--space-4); }
+    button, input, textarea { font: inherit; }
+    .app-shell {
+      width: var(--phone-w); height: min(920px, calc(100dvh - 2rem)); background: color-mix(in srgb, var(--color-bg) 92%, white 8%);
+      border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent); border-radius: 2rem; box-shadow: var(--shadow-lg); overflow: hidden; position: relative;
+    }
+    .status-bar { display:flex; justify-content:space-between; padding: .85rem 1.2rem .25rem; font-size: var(--text-xs); color: var(--color-text-muted); }
+    .screen { height: calc(100% - 2rem); display:grid; grid-template-rows: auto auto 1fr auto; background: linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 88%, transparent), var(--color-bg)); }
+    .topbar { display:flex; align-items:center; justify-content:space-between; padding: .4rem 1.15rem 0.85rem; }
+    .brand { display:flex; align-items:center; gap: .85rem; }
+    .logo { width: 2.5rem; height: 2.5rem; display:grid; place-items:center; border-radius: .9rem; background: linear-gradient(145deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 54%, var(--color-accent))); color: white; box-shadow: var(--shadow-sm); }
+    .brand h1 { font-size: var(--text-lg); line-height:1; margin:0 0 .15rem; }
+    .brand p { margin:0; font-size: var(--text-xs); color: var(--color-text-muted); }
+    .icon-btn { min-width: 44px; min-height: 44px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent); background: color-mix(in srgb, var(--color-surface-2) 80%, transparent); color: var(--color-text); display:grid; place-items:center; }
+    .hero { padding: 0 1.15rem 1rem; display:grid; gap:.9rem; }
+    .hero-card { background: linear-gradient(160deg, color-mix(in srgb, var(--color-primary) 16%, var(--color-surface-2)), var(--color-surface-2)); border-radius: var(--radius-xl); padding: 1rem; border:1px solid color-mix(in srgb, var(--color-primary) 14%, transparent); box-shadow: var(--shadow-md); }
+    .eyebrow { font-size: var(--text-xs); letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-muted); }
+    .hero h2 { font-size: var(--text-xl); line-height:1.04; margin:.35rem 0 .5rem; max-width: 12ch; }
+    .hero p { margin:0; font-size: var(--text-sm); color: var(--color-text-muted); max-width: 32ch; }
+    .meta-row, .stat-row { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; }
+    .chip { padding:.45rem .7rem; border-radius:999px; background: color-mix(in srgb, var(--color-surface) 84%, transparent); border:1px solid color-mix(in srgb, var(--color-text) 9%, transparent); font-size: var(--text-xs); }
+    .content { overflow:auto; padding: 0 1.15rem 6.4rem; display:grid; gap:1rem; }
+    .section-title { display:flex; justify-content:space-between; align-items:center; margin-bottom:.1rem; }
+    .section-title h3 { margin:0; font-size: var(--text-base); }
+    .section-title span { font-size: var(--text-xs); color: var(--color-text-muted); }
+    .card { background: color-mix(in srgb, var(--color-surface) 84%, transparent); border: 1px solid color-mix(in srgb, var(--color-text) 9%, transparent); border-radius: var(--radius-lg); padding: .95rem; box-shadow: var(--shadow-sm); }
+    .pulse { display:grid; gap:.7rem; }
+    .mood-bar { height: .7rem; border-radius:999px; background: color-mix(in srgb, var(--color-text) 8%, transparent); overflow:hidden; }
+    .mood-fill { height:100%; width:68%; border-radius:999px; background: linear-gradient(90deg, var(--color-accent), var(--color-primary)); }
+    .grid-2 { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:.75rem; }
+    .kpi strong { display:block; font-size: var(--text-lg); }
+    .kpi span { font-size: var(--text-xs); color: var(--color-text-muted); }
+    .feed { display:grid; gap:.8rem; }
+    .post { display:grid; gap:.75rem; }
+    .post-top { display:flex; justify-content:space-between; gap:.75rem; align-items:flex-start; }
+    .avatar { width:2.35rem; height:2.35rem; border-radius: .8rem; background: color-mix(in srgb, var(--color-primary) 15%, var(--color-surface-2)); display:grid; place-items:center; color: var(--color-primary); font-weight:700; }
+    .post p { margin:0; font-size: var(--text-sm); line-height:1.5; }
+    .post small { color: var(--color-text-muted); }
+    .ai-note { padding:.7rem .8rem; border-radius:.95rem; background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface)); color: var(--color-text); font-size: var(--text-xs); }
+    .composer textarea { width:100%; min-height: 108px; resize:none; border:none; outline:none; background: transparent; color: var(--color-text); }
+    .composer-wrap { background: color-mix(in srgb, var(--color-surface) 94%, transparent); border-radius: var(--radius-lg); border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent); padding:.85rem .9rem; }
+    .composer-actions { display:flex; justify-content:space-between; align-items:center; gap:.75rem; margin-top:.75rem; }
+    .emoji-row { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .emoji { min-width: 40px; min-height: 40px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent); background: transparent; }
+    .emoji.active { background: var(--color-primary-soft); border-color: color-mix(in srgb, var(--color-primary) 50%, transparent); }
+    .primary-btn { min-height:44px; padding:.78rem 1rem; border-radius: 999px; background: var(--color-primary); color: var(--color-text-inverse); font-weight:700; box-shadow: var(--shadow-sm); }
+    .secondary-btn { min-height:44px; padding:.78rem 1rem; border-radius: 999px; background: color-mix(in srgb, var(--color-surface-2) 88%, transparent); color: var(--color-text); border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent); }
+    .intervention { display:flex; align-items:flex-start; gap:.8rem; }
+    .intervention .dot { width: 2.25rem; height:2.25rem; border-radius:.8rem; background: var(--color-accent-soft); display:grid; place-items:center; }
+    .tabs { position:absolute; left:0; right:0; bottom:0; padding: .75rem 1rem calc(.85rem + var(--safe-bottom)); background: color-mix(in srgb, var(--color-surface) 82%, transparent); backdrop-filter: blur(18px); border-top:1px solid color-mix(in srgb, var(--color-text) 10%, transparent); display:grid; grid-template-columns: repeat(4, 1fr); gap:.45rem; }
+    .tab { min-height:52px; border-radius: 1rem; display:grid; place-items:center; gap:.12rem; color: var(--color-text-muted); }
+    .tab span { font-size: 11px; }
+    .tab.active { background: color-mix(in srgb, var(--color-primary) 12%, transparent); color: var(--color-primary); font-weight:700; }
+    .view { display:none; }
+    .view.active { display:grid; gap:1rem; }
+    .list { display:grid; gap:.75rem; }
+    .tiny { font-size: var(--text-xs); color: var(--color-text-muted); }
+    .settings-row { display:flex; justify-content:space-between; align-items:center; gap:.8rem; }
+    .toggle { width: 54px; height: 32px; padding: 3px; border-radius:999px; background: color-mix(in srgb, var(--color-text) 12%, transparent); display:flex; align-items:center; }
+    .toggle::after { content:""; width: 26px; height:26px; border-radius:50%; background: white; box-shadow: var(--shadow-sm); transform: translateX(0); transition: transform .18s ease; }
+    .toggle.on { background: var(--color-primary); }
+    .toggle.on::after { transform: translateX(22px); }
+    .toast { position:absolute; left:50%; bottom: 110px; transform: translateX(-50%) translateY(16px); width: calc(100% - 2rem); background: color-mix(in srgb, var(--color-surface-2) 96%, transparent); border:1px solid color-mix(in srgb, var(--color-primary) 18%, transparent); border-radius: 1rem; padding: .9rem 1rem; box-shadow: var(--shadow-md); opacity:0; pointer-events:none; transition: .22s ease; }
+    .toast.show { opacity:1; transform: translateX(-50%) translateY(0); }
+    .mini-chart { display:flex; align-items:end; gap:.35rem; height:72px; }
+    .mini-chart i { display:block; flex:1; border-radius:999px 999px .4rem .4rem; background: linear-gradient(180deg, var(--color-primary), color-mix(in srgb, var(--color-accent) 72%, var(--color-primary))); }
+    @media (max-width: 430px) {
+      body { padding: 0; }
+      .app-shell { width:100vw; height:100dvh; border-radius: 0; border:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div class="status-bar"><span>9:41</span><span>5G • 92%</span></div>
+    <div class="screen">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo" aria-label="Anonymust logo">
+            <svg width="22" height="22" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M24 5c8 0 14 4.4 17 11.2v7.3c0 10.4-7.4 17.1-17 19.8-9.6-2.7-17-9.4-17-19.8v-7.3C10 9.4 16 5 24 5Z" stroke="currentColor" stroke-width="3.2" fill="rgba(255,255,255,.12)"/>
+              <path d="M17 27c2.1 2.5 4.5 3.7 7 3.7s4.9-1.2 7-3.7" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+              <circle cx="18.5" cy="20.2" r="1.8" fill="currentColor"/><circle cx="29.5" cy="20.2" r="1.8" fill="currentColor"/>
+            </svg>
+          </div>
+          <div>
+            <h1>Anonymust</h1>
+            <p>Safe release, gentle recovery</p>
+          </div>
+        </div>
+        <button class="icon-btn" id="themeToggle" aria-label="Switch theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </header>
+
+      <section class="hero">
+        <div class="hero-card">
+          <div class="eyebrow">Revived prototype</div>
+          <h2>Anonymous support built for stressful workdays.</h2>
+          <p>Express what happened, get a soft next step, and notice patterns before burnout gets louder.</p>
+          <div class="meta-row" style="margin-top:.9rem;">
+            <div class="chip">Private by default</div>
+            <div class="chip">2-minute check-ins</div>
+            <div class="chip">Warm AI nudges</div>
+          </div>
+        </div>
+      </section>
+
+      <main class="content">
+        <section class="view active" data-view="home">
+          <div class="card pulse">
+            <div class="section-title"><h3>Today’s pulse</h3><span>Updated now</span></div>
+            <div class="mood-bar"><div class="mood-fill"></div></div>
+            <div class="grid-2">
+              <div class="kpi"><strong>68%</strong><span>Calmer than Monday</span></div>
+              <div class="kpi"><strong>3</strong><span>Nudges completed</span></div>
+            </div>
+          </div>
+          <div class="card intervention">
+            <div class="dot">☁️</div>
+            <div>
+              <strong>Micro-intervention</strong>
+              <p class="tiny" style="margin-top:.25rem;">Take one slow breath in for four counts, out for six. Then write the one thing you can postpone today.</p>
+            </div>
+          </div>
+          <div>
+            <div class="section-title"><h3>Community moments</h3><span>Anonymous feed</span></div>
+            <div class="feed">
+              <article class="card post">
+                <div class="post-top">
+                  <div style="display:flex;gap:.75rem;">
+                    <div class="avatar">A</div>
+                    <div><strong>Ops Team</strong><br><small>12 min ago • tense</small></div>
+                  </div>
+                  <div class="chip">workload</div>
+                </div>
+                <p>I spent the whole morning fixing a process that broke because nobody had context. I’m not angry, just drained.</p>
+                <div class="ai-note">AI reflection: This sounds like invisible labor plus low recognition. Suggested reset: 3-minute decompression before your next handoff.</div>
+              </article>
+              <article class="card post">
+                <div class="post-top">
+                  <div style="display:flex;gap:.75rem;">
+                    <div class="avatar">N</div>
+                    <div><strong>Product Circle</strong><br><small>1 hr ago • overloaded</small></div>
+                  </div>
+                  <div class="chip">meetings</div>
+                </div>
+                <p>Back-to-back calls all day. I need a way to vent without sounding dramatic.</p>
+                <div class="ai-note">Micro-support from peers: “Mute one notification stream for 20 minutes and reclaim your headspace.”</div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" data-view="new">
+          <div class="card composer">
+            <div class="section-title"><h3>Post anonymously</h3><span>Company-safe</span></div>
+            <div class="composer-wrap">
+              <textarea id="rantText" placeholder="What happened today? You can be honest here."></textarea>
+            </div>
+            <div class="emoji-row" id="emojiRow">
+              <button class="emoji active" data-mood="tense">😮‍💨</button>
+              <button class="emoji" data-mood="frustrated">😤</button>
+              <button class="emoji" data-mood="sad">😔</button>
+              <button class="emoji" data-mood="hopeful">🙂</button>
+              <button class="emoji" data-mood="steady">😌</button>
+            </div>
+            <div class="composer-actions">
+              <button class="secondary-btn" type="button">Save draft</button>
+              <button class="primary-btn" id="postBtn" type="button">Post and get support</button>
+            </div>
+          </div>
+          <div class="card">
+            <strong>Why this flow is better</strong>
+            <p class="tiny" style="margin-top:.45rem;">The revive removes clutter, keeps one primary action, and immediately turns expression into a soft, useful next step.</p>
+          </div>
+        </section>
+
+        <section class="view" data-view="insights">
+          <div class="card">
+            <div class="section-title"><h3>Weekly pattern</h3><span>Last 7 days</span></div>
+            <div class="mini-chart" aria-hidden="true">
+              <i style="height:44%"></i><i style="height:58%"></i><i style="height:49%"></i><i style="height:76%"></i><i style="height:64%"></i><i style="height:82%"></i><i style="height:55%"></i>
+            </div>
+            <p class="tiny" style="margin-top:.7rem;">Your stress spikes after clustered meetings. Evening check-ins help your score recover fastest.</p>
+          </div>
+          <div class="list">
+            <div class="card"><strong>Trigger</strong><p class="tiny" style="margin-top:.35rem;">Role ambiguity shows up in 4 of 7 entries.</p></div>
+            <div class="card"><strong>Best intervention</strong><p class="tiny" style="margin-top:.35rem;">Short breathing resets had the highest completion this week.</p></div>
+            <div class="card"><strong>Protective habit</strong><p class="tiny" style="margin-top:.35rem;">A two-line journal note after hard calls lowers next-check-in intensity.</p></div>
+          </div>
+        </section>
+
+        <section class="view" data-view="settings">
+          <div class="list">
+            <div class="card settings-row">
+              <div><strong>Dark mode</strong><div class="tiny">Softer late-night reading</div></div>
+              <button class="toggle" id="settingsTheme" aria-label="Toggle dark mode"></button>
+            </div>
+            <div class="card settings-row">
+              <div><strong>Gentle reminders</strong><div class="tiny">Only when stress is rising</div></div>
+              <button class="toggle on" aria-label="Reminders enabled"></button>
+            </div>
+            <div class="card">
+              <strong>Privacy language</strong>
+              <p class="tiny" style="margin-top:.4rem;">No names in posts. Patterns are shown in aggregate. The tone is built to feel safe, corporate, and warm at the same time.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <nav class="tabs" aria-label="Primary">
+        <button class="tab active" data-tab="home">⌂<span>Home</span></button>
+        <button class="tab" data-tab="new">＋<span>New</span></button>
+        <button class="tab" data-tab="insights">◔<span>Insights</span></button>
+        <button class="tab" data-tab="settings">☰<span>Settings</span></button>
+      </nav>
+    </div>
+    <div class="toast" id="toast">
+      <strong>Support ready</strong>
+      <div class="tiny" id="toastText" style="margin-top:.2rem;">Try a 90-second reset before your next meeting.</div>
+    </div>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const tabs = [...document.querySelectorAll('.tab')];
+    const views = [...document.querySelectorAll('.view')];
+    const toast = document.getElementById('toast');
+    const toastText = document.getElementById('toastText');
+    const postBtn = document.getElementById('postBtn');
+    const rantText = document.getElementById('rantText');
+    const emojiButtons = [...document.querySelectorAll('.emoji')];
+    const themeToggle = document.getElementById('themeToggle');
+    const settingsTheme = document.getElementById('settingsTheme');
+
+    let currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    root.setAttribute('data-theme', currentTheme);
+    syncThemeToggles();
+
+    function syncThemeToggles() {
+      settingsTheme.classList.toggle('on', currentTheme === 'dark');
+      themeToggle.innerHTML = currentTheme === 'dark'
+        ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+        : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    }
+
+    function toggleTheme() {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', currentTheme);
+      syncThemeToggles();
+    }
+
+    themeToggle.addEventListener('click', toggleTheme);
+    settingsTheme.addEventListener('click', toggleTheme);
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        views.forEach(v => v.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelector(`[data-view="${tab.dataset.tab}"]`).classList.add('active');
+      });
+    });
+
+    emojiButtons.forEach(btn => btn.addEventListener('click', () => {
+      emojiButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }));
+
+    postBtn.addEventListener('click', () => {
+      const mood = document.querySelector('.emoji.active')?.dataset.mood || 'tense';
+      const text = rantText.value.trim();
+      const suggestions = {
+        tense: 'You sound stretched. Try one unclenching breath and delay one non-urgent reply.',
+        frustrated: 'Frustration usually hides overload. Write the one task that should not be yours today.',
+        sad: 'This feels heavy. Step away for water, then send one message to a trusted person.',
+        hopeful: 'Protect that momentum with a tiny win before the next interruption.',
+        steady: 'You are stable right now. Capture what helped so you can repeat it tomorrow.'
+      };
+      toastText.textContent = text ? suggestions[mood] : 'Add a short note, then get a tailored micro-intervention.';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2600);
+      if (text) {
+        rantText.value = '';
+      }
+    });
+  </script>
+</body>
+</html>
