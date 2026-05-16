@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>AnonyMust — Login & Sign up</title>
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand: #4a8191;
+      --brand-dark: #2f5f6b;
+      --teal: #0d8f89;
+      --teal-hover: #0a756f;
+      --green: #3d9b6e;
+      --green-muted: #2bae7b;
+      --mint: #b8e8d4;
+      --forest: #2d6a4f;
+      --lavender: #d4c5e8;
+      --navy: #0f3d4a;
+      --navy-mid: #1a5c6e;
+      --sky: #5eb8c9;
+      --bg: #ffffff;
+      --input-bg: #f5f6f8;
+      --card: #ffffff;
+      --text: #1c1c1e;
+      --text-muted: #6b6b70;
+      --text-placeholder: #9a9aa0;
+      --border: #d8dde3;
+      --otp-bg: #f0f1f3;
+      --safe-bottom: max(16px, env(safe-area-inset-bottom));
+      --radius-card: 28px 28px 0 0;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      min-height: 100dvh;
+    }
+
+    button, input { font: inherit; }
+    a { color: var(--teal); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .app {
+      width: min(100%, 430px);
+      min-height: 100dvh;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      min-height: 100dvh;
+    }
+    .screen.active { display: flex; }
+
+    /* —— Hero / gradient panels —— */
+    .hero-panel {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      background: linear-gradient(165deg, var(--navy) 0%, var(--navy-mid) 42%, var(--sky) 100%);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: max(16px, env(safe-area-inset-top)) 24px 0;
+    }
+    #screenWelcome .hero-panel {
+      min-height: 100dvh;
+    }
+
+    .hero-shapes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-shapes .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(1px);
+      opacity: 0.55;
+    }
+    .hero-shapes .b1 {
+      width: 220px; height: 220px;
+      background: color-mix(in srgb, var(--sky) 70%, white);
+      top: -40px; right: -60px;
+    }
+    .hero-shapes .b2 {
+      width: 180px; height: 180px;
+      background: color-mix(in srgb, var(--teal) 50%, transparent);
+      bottom: 20%; left: -50px;
+    }
+    .hero-shapes .wave {
+      position: absolute;
+      bottom: -20px;
+      left: -10%;
+      width: 120%;
+      height: 45%;
+      background: color-mix(in srgb, var(--sky) 35%, var(--navy-mid));
+      border-radius: 50% 50% 0 0;
+      transform: rotate(-4deg);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 8px 32px;
+    }
+
+    .back-text {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,.92);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      padding: 8px 0;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+    .back-text:hover { opacity: .85; }
+
+    .welcome-title {
+      margin: 0 0 12px;
+      font-size: clamp(1.75rem, 6vw, 2.25rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .welcome-sub {
+      margin: 0;
+      max-width: 28ch;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,.82);
+    }
+
+  /* —— Logo —— */
+    .brand-lockup {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .brand-lockup.compact { margin-bottom: 0; }
+    .brand-lockup.hero-logo { margin-bottom: 28px; }
+
+    .brand-name {
+      margin: 0;
+      font-size: 1.75rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--brand);
+    }
+    .hero-panel .brand-name { color: #fff; }
+
+    .logo-svg {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,.12));
+    }
+    .logo-svg.sm { width: 52px; height: 52px; }
+
+    .tagline {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.78);
+    }
+
+    /* Welcome bottom bar */
+    .welcome-actions {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      gap: 12px;
+      padding: 20px 24px calc(20px + var(--safe-bottom));
+      background: transparent;
+    }
+    .welcome-btn {
+      border: none;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 14px 20px;
+      min-height: 52px;
+      cursor: pointer;
+      transition: background .15s ease, color .15s ease, box-shadow .15s ease, transform .1s ease;
+    }
+    .welcome-btn:active { transform: scale(0.98); }
+    .welcome-btn--outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,.85);
+    }
+    .welcome-btn--outline:hover {
+      background: rgba(255,255,255,.1);
+    }
+    .welcome-btn--filled {
+      background: #fff;
+      color: var(--brand);
+      box-shadow: 0 8px 24px rgba(0,0,0,.15);
+    }
+    .welcome-btn--filled:hover {
+      background: #f5f9fa;
+    }
+
+    /* —— White form card —— */
+    .form-sheet {
+      flex: 1;
+      background: var(--card);
+      border-radius: var(--radius-card);
+      margin-top: -8px;
+      padding: 28px 24px calc(28px + var(--safe-bottom));
+      box-shadow: 0 -12px 40px rgba(15,61,74,.18);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    .form-sheet h2 {
+      margin: 0 0 24px;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--brand-dark);
+      letter-spacing: -0.02em;
+    }
+
+    .outlined-field {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .outlined-field label {
+      position: absolute;
+      top: -9px;
+      left: 14px;
+      padding: 0 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--brand);
+      background: var(--card);
+      z-index: 1;
+    }
+    .outlined-field input {
+      width: 100%;
+      padding: 16px 16px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      color: var(--text);
+      background: var(--card);
+    }
+    .outlined-field input::placeholder { color: var(--text-placeholder); }
+    .outlined-field input:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--teal) 18%, transparent);
+    }
+
+    .field-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: -4px 0 20px;
+      font-size: 0.875rem;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+    .checkbox-label input { margin-top: 3px; accent-color: var(--teal); }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      background: var(--teal);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s ease, transform .1s ease;
+    }
+    .btn-primary:hover { background: var(--teal-hover); }
+    .btn-primary:active { transform: scale(.99); }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0 18px;
+      color: var(--text-muted);
+      font-size: 0.8125rem;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .social-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+    .social-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--card);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: border-color .15s, background .15s;
+    }
+    .social-btn:hover {
+      border-color: var(--teal);
+      background: color-mix(in srgb, var(--teal) 8%, white);
+    }
+
+    .form-footer {
+      margin-top: auto;
+      padding-top: 24px;
+      text-align: center;
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+    }
+
+    .link-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      font: inherit;
+      font-weight: 700;
+      color: var(--teal);
+      cursor: pointer;
+    }
+    .link-btn:hover { text-decoration: underline; }
+
+    .alt-auth {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    /* —— Phone + OTP (original flow) —— */
+    .screen-plain {
+      background: var(--bg);
+      padding: max(20px, env(safe-area-inset-top)) 24px calc(24px + var(--safe-bottom));
+    }
+    .screen-phone {
+      align-items: center;
+      text-align: center;
+      padding-top: clamp(24px, 8dvh, 48px);
+    }
+    .screen-phone .brand-lockup { margin-bottom: 12px; }
+    .screen-phone .tagline-plain {
+      margin: 0 0 36px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .field-simple {
+      width: 100%;
+      max-width: 340px;
+    }
+    .field-simple input {
+      width: 100%;
+      padding: 16px 18px;
+      border: none;
+      border-radius: 14px;
+      background: var(--input-bg);
+      font-size: 1rem;
+    }
+    .field-simple input:focus {
+      outline: 2px solid color-mix(in srgb, var(--teal) 35%, transparent);
+      outline-offset: 2px;
+    }
+
+    .screen-otp { align-items: stretch; }
+    .back-btn {
+      align-self: flex-start;
+      width: 44px; height: 44px;
+      border: none; background: transparent;
+      border-radius: 12px;
+      display: grid; place-items: center;
+      cursor: pointer;
+      margin: -4px 0 8px -8px;
+    }
+    .back-btn:hover { background: rgba(0,0,0,.05); }
+    .eyebrow-otp {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--green-muted);
+      margin: 0 0 8px;
+    }
+    .screen-otp h1 {
+      margin: 0 0 12px;
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+    .hint {
+      margin: 0 0 28px;
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+    }
+    .hint .phone-display { font-weight: 600; color: var(--text); }
+
+    .otp-row {
+      display: flex;
+      gap: 10px;
+    }
+    .otp-row input {
+      flex: 1;
+      max-width: 52px;
+      aspect-ratio: 1;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      background: var(--otp-bg);
+    }
+    .otp-row input:focus {
+      outline: none;
+      box-shadow: 0 2px 0 0 var(--green-muted);
+      background: #fff;
+      border: 1px solid color-mix(in srgb, var(--green-muted) 30%, transparent);
+    }
+
+    .resend {
+      margin-top: 28px;
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+    }
+    .resend strong { color: var(--text); }
+    .resend .link {
+      background: none; border: none; padding: 0;
+      font: inherit; font-weight: 700;
+      color: var(--green-muted);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .form-error {
+      margin-top: 8px;
+      font-size: 0.875rem;
+      color: #c62828;
+      min-height: 1.2em;
+    }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    @media (max-width: 360px) {
+      .otp-row { gap: 6px; }
+      .otp-row input { max-width: 44px; font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- Welcome -->
+    <div class="screen active" id="screenWelcome" data-screen="welcome">
+      <div class="hero-panel">
+        <div class="hero-shapes" aria-hidden="true">
+          <span class="blob b1"></span>
+          <span class="blob b2"></span>
+          <span class="wave"></span>
+        </div>
+        <div class="hero-content">
+          <div class="brand-lockup hero-logo">
+            <svg class="logo-svg" viewBox="0 0 72 72" aria-hidden="true">
+              <defs>
+                <linearGradient id="lgMint" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#d4f5e4"/>
+                  <stop offset="100%" stop-color="#8fd4b0"/>
+                </linearGradient>
+                <linearGradient id="lgForest" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#1f5c42"/>
+                  <stop offset="100%" stop-color="#3d9b6e"/>
+                </linearGradient>
+                <linearGradient id="lgLav" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ebe4f8"/>
+                  <stop offset="100%" stop-color="#c9b8e8"/>
+                </linearGradient>
+                <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity=".12"/>
+                </filter>
+              </defs>
+              <g filter="url(#softShadow)">
+                <circle cx="28" cy="48" r="22" fill="url(#lgForest)" opacity=".92"/>
+                <circle cx="48" cy="44" r="20" fill="url(#lgLav)" opacity=".88"/>
+                <circle cx="36" cy="26" r="24" fill="url(#lgMint)"/>
+              </g>
+              <g stroke="#2d5a45" stroke-width="1.6" stroke-linecap="round" fill="none">
+                <path d="M25 25c-1.5 2.5-1.5 5.5 1 7.5"/>
+                <path d="M28 23v2.5M27 24.2l1.4 1.2M29.2 24.2l-1.4 1.2"/>
+                <path d="M47 25c1.5 2.5 1.5 5.5-1 7.5"/>
+                <path d="M44 23v2.5M43 24.2l1.4 1.2M45.2 24.2l-1.4 1.2"/>
+                <path d="M32 35q4 3.5 8 0" stroke-width="2"/>
+              </g>
+              <g stroke="#6aab82" stroke-width="1.1" stroke-linecap="round">
+                <path d="M21 31v3.5M22.2 32v2M23.4 33v1"/>
+                <path d="M51 31v3.5M49.8 32v2M48.6 33v1"/>
+              </g>
+            </svg>
+            <h1 class="brand-name">AnonyMust</h1>
+          </div>
+          <h2 class="welcome-title">Welcome Back!</h2>
+          <p class="welcome-sub">Share freely, heal together. Sign in or create your safe space.</p>
+        </div>
+        <div class="welcome-actions">
+          <button type="button" class="welcome-btn welcome-btn--outline" data-go="login">Sign in</button>
+          <button type="button" class="welcome-btn welcome-btn--filled" data-go="signup">Sign up</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login -->
+    <div class="screen" id="screenLogin" data-screen="login">
+      <div class="hero-panel" style="flex:0 0 auto; min-height:140px; padding-bottom:0;">
+        <div class="hero-shapes" aria-hidden="true">
+          <span class="blob b1"></span>
+          <span class="blob b2"></span>
+        </div>
+        <button type="button" class="back-text" data-go="welcome" aria-label="Back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+          Back
+        </button>
+      </div>
+      <div class="form-sheet">
+        <h2>Welcome Back</h2>
+        <form id="loginForm" novalidate>
+          <div class="outlined-field">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" type="email" autocomplete="email" placeholder="Enter Email" required />
+          </div>
+          <div class="outlined-field">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter Password" required />
+          </div>
+          <div class="field-row">
+            <label class="checkbox-label" style="margin:0;">
+              <input type="checkbox" id="rememberMe" />
+              Remember me
+            </label>
+            <button type="button" class="link-btn" style="font-size:.875rem;">Forgot password?</button>
+          </div>
+          <p class="form-error" id="loginError" role="status"></p>
+          <button type="submit" class="btn-primary">Sign in</button>
+        </form>
+        <div class="divider">Sign in with</div>
+        <div class="social-row" aria-label="Social sign in">
+          <button type="button" class="social-btn" title="Facebook" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07c0 6.02 4.39 11.01 10.13 11.9v-8.41H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.95h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.32l-.53 3.49h-2.79v8.41C19.61 23.08 24 18.09 24 12.07z"/></svg>
+          </button>
+          <button type="button" class="social-btn" title="Google" aria-label="Google">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 10.2v3.9h5.4c-.2 1.3-1.6 3.8-5.4 3.8-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.2.8 3.9 1.5l2.7-2.6C17.5 3.5 15 2.5 12 2.5 6.8 2.5 2.5 6.8 2.5 12S6.8 21.5 12 21.5c6.9 0 8.5-4.8 8.5-7.3 0-.5 0-1-.1-1.4H12z"/></svg>
+          </button>
+          <button type="button" class="social-btn" title="Apple" aria-label="Apple">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.68c-.02-2.3 1.88-3.4 1.96-3.45-1.07-1.55-2.73-1.76-3.32-1.79-1.41-.14-2.76.83-3.48.83-.73 0-1.85-.81-3.05-.79-1.57.02-3.02.91-3.83 2.32-1.63 2.83-.42 7.02 1.17 9.32.78 1.13 1.7 2.4 2.92 2.35 1.18-.05 1.62-.76 3.05-.76 1.43 0 1.83.76 3.07.74 1.27-.02 2.07-1.15 2.84-2.29.9-1.31 1.27-2.58 1.29-2.65-.03-.01-2.48-.95-2.5-3.78zM14.86 5.2c.65-.79 1.09-1.89.97-2.99-.94.04-2.08.63-2.75 1.42-.6.7-1.13 1.83-.99 2.91 1.05.08 2.12-.53 2.77-1.34z"/></svg>
+          </button>
+        </div>
+        <p class="alt-auth">
+          <button type="button" class="link-btn" data-go="phone">Continue with phone number</button>
+        </p>
+        <p class="form-footer">
+          Don't have an account?
+          <button type="button" class="link-btn" data-go="signup">Sign up</button>
+        </p>
+      </div>
+    </div>
+
+    <!-- Signup -->
+    <div class="screen" id="screenSignup" data-screen="signup">
+      <div class="hero-panel" style="flex:0 0 auto; min-height:140px; padding-bottom:0;">
+        <div class="hero-shapes" aria-hidden="true">
+          <span class="blob b1"></span>
+          <span class="blob b2"></span>
+        </div>
+        <button type="button" class="back-text" data-go="welcome" aria-label="Back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+          Back
+        </button>
+      </div>
+      <div class="form-sheet">
+        <h2>Get Started</h2>
+        <form id="signupForm" novalidate>
+          <div class="outlined-field">
+            <label for="signupName">Full Name</label>
+            <input id="signupName" type="text" autocomplete="name" placeholder="Enter Full Name" required />
+          </div>
+          <div class="outlined-field">
+            <label for="signupEmail">Email</label>
+            <input id="signupEmail" type="email" autocomplete="email" placeholder="Enter Email" required />
+          </div>
+          <div class="outlined-field">
+            <label for="signupPassword">Password</label>
+            <input id="signupPassword" type="password" autocomplete="new-password" placeholder="Enter Password" required minlength="6" />
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" id="agreeTerms" required />
+            <span>I agree to the processing of <a href="#">Personal data</a></span>
+          </label>
+          <p class="form-error" id="signupError" role="status"></p>
+          <button type="submit" class="btn-primary">Sign up</button>
+        </form>
+        <div class="divider">Sign up with</div>
+        <div class="social-row" aria-label="Social sign up">
+          <button type="button" class="social-btn" title="Facebook" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07c0 6.02 4.39 11.01 10.13 11.9v-8.41H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.95h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.32l-.53 3.49h-2.79v8.41C19.61 23.08 24 18.09 24 12.07z"/></svg>
+          </button>
+          <button type="button" class="social-btn" title="Google" aria-label="Google">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 10.2v3.9h5.4c-.2 1.3-1.6 3.8-5.4 3.8-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.2.8 3.9 1.5l2.7-2.6C17.5 3.5 15 2.5 12 2.5 6.8 2.5 2.5 6.8 2.5 12S6.8 21.5 12 21.5c6.9 0 8.5-4.8 8.5-7.3 0-.5 0-1-.1-1.4H12z"/></svg>
+          </button>
+          <button type="button" class="social-btn" title="Apple" aria-label="Apple">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.68c-.02-2.3 1.88-3.4 1.96-3.45-1.07-1.55-2.73-1.76-3.32-1.79-1.41-.14-2.76.83-3.48.83-.73 0-1.85-.81-3.05-.79-1.57.02-3.02.91-3.83 2.32-1.63 2.83-.42 7.02 1.17 9.32.78 1.13 1.7 2.4 2.92 2.35 1.18-.05 1.62-.76 3.05-.76 1.43 0 1.83.76 3.07.74 1.27-.02 2.07-1.15 2.84-2.29.9-1.31 1.27-2.58 1.29-2.65-.03-.01-2.48-.95-2.5-3.78zM14.86 5.2c.65-.79 1.09-1.89.97-2.99-.94.04-2.08.63-2.75 1.42-.6.7-1.13 1.83-.99 2.91 1.05.08 2.12-.53 2.77-1.34z"/></svg>
+          </button>
+        </div>
+        <p class="alt-auth">
+          <button type="button" class="link-btn" data-go="phone">Verify with phone instead</button>
+        </p>
+        <p class="form-footer">
+          Already have an account?
+          <button type="button" class="link-btn" data-go="login">Sign In</button>
+        </p>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="screen screen-plain screen-phone" id="screenPhone" data-screen="phone">
+      <button type="button" class="back-btn" data-go="login" aria-label="Back">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="brand-lockup">
+        <svg class="logo-svg sm" viewBox="0 0 72 72" aria-hidden="true">
+          <defs>
+            <linearGradient id="lgMint2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4f5e4"/><stop offset="100%" stop-color="#8fd4b0"/></linearGradient>
+            <linearGradient id="lgForest2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1f5c42"/><stop offset="100%" stop-color="#3d9b6e"/></linearGradient>
+            <linearGradient id="lgLav2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ebe4f8"/><stop offset="100%" stop-color="#c9b8e8"/></linearGradient>
+          </defs>
+          <circle cx="28" cy="48" r="22" fill="url(#lgForest2)" opacity=".92"/>
+          <circle cx="48" cy="44" r="20" fill="url(#lgLav2)" opacity=".88"/>
+          <circle cx="36" cy="26" r="24" fill="url(#lgMint2)"/>
+          <g stroke="#2d5a45" stroke-width="1.6" stroke-linecap="round" fill="none">
+            <path d="M25 25c-1.5 2.5-1.5 5.5 1 7.5"/><path d="M28 23v2.5M27 24.2l1.4 1.2M29.2 24.2l-1.4 1.2"/>
+            <path d="M47 25c1.5 2.5 1.5 5.5-1 7.5"/><path d="M44 23v2.5M43 24.2l1.4 1.2M45.2 24.2l-1.4 1.2"/>
+            <path d="M32 35q4 3.5 8 0" stroke-width="2"/>
+          </g>
+          <g stroke="#6aab82" stroke-width="1.1" stroke-linecap="round">
+            <path d="M21 31v3.5M22.2 32v2M23.4 33v1"/><path d="M51 31v3.5M49.8 32v2M48.6 33v1"/>
+          </g>
+        </svg>
+        <h1 class="brand-name">AnonyMust</h1>
+      </div>
+      <p class="tagline-plain">Share Freely, Heal Together</p>
+      <div class="field-simple">
+        <label class="visually-hidden" for="phoneInput">Phone number</label>
+        <input id="phoneInput" type="tel" inputmode="tel" autocomplete="tel" placeholder="Enter Phone number" maxlength="20" />
+      </div>
+      <p class="form-error" id="phoneError" role="status"></p>
+      <button type="button" class="btn-primary" id="sendCodeBtn" style="max-width:340px;margin-top:16px;">Send Code</button>
+    </div>
+
+    <!-- OTP -->
+    <div class="screen screen-plain screen-otp" id="screenOtp" data-screen="otp">
+      <button type="button" class="back-btn" id="otpBackBtn" data-go="phone" aria-label="Back">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <p class="eyebrow-otp">Login/Register</p>
+      <h1>Verify your mobile number</h1>
+      <p class="hint">Enter the 6 digit OTP sent to <span class="phone-display" id="maskedPhone">—</span>.</p>
+      <div class="otp-row" role="group" aria-label="One-time code">
+        <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" data-index="0" aria-label="Digit 1" />
+        <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" data-index="1" aria-label="Digit 2" />
+        <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" data-index="2" aria-label="Digit 3" />
+        <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" data-index="3" aria-label="Digit 4" />
+        <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" data-index="4" aria-label="Digit 5" />
+        <input class="otp-digit" type="text" inputmode="numeric" maxlength="1" data-index="5" aria-label="Digit 6" />
+      </div>
+      <p class="form-error" id="otpError" role="status"></p>
+      <div class="resend">
+        <strong>Didn't get the otp?</strong>
+        <span id="resendTimerWrap"> Resend code in <span id="resendTimer">01:00</span></span>
+        <button type="button" class="link" id="resendBtn" hidden disabled>Resend code</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const screens = {
+        welcome: document.getElementById('screenWelcome'),
+        login: document.getElementById('screenLogin'),
+        signup: document.getElementById('screenSignup'),
+        phone: document.getElementById('screenPhone'),
+        otp: document.getElementById('screenOtp'),
+      };
+
+      let countdownId = null;
+      let resendSeconds = 60;
+      function show(name) {
+        Object.entries(screens).forEach(([key, el]) => {
+          const on = key === name;
+          el.classList.toggle('active', on);
+          el.setAttribute('aria-hidden', String(!on));
+        });
+      }
+
+      document.querySelectorAll('[data-go]').forEach(btn => {
+        btn.addEventListener('click', () => show(btn.dataset.go));
+      });
+
+      document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const err = document.getElementById('loginError');
+        err.textContent = '';
+        const email = document.getElementById('loginEmail').value.trim();
+        const pass = document.getElementById('loginPassword').value;
+        if (!email || !pass) {
+          err.textContent = 'Please fill in email and password.';
+          return;
+        }
+        window.location.href = 'index.html';
+      });
+
+      document.getElementById('signupForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const err = document.getElementById('signupError');
+        err.textContent = '';
+        const name = document.getElementById('signupName').value.trim();
+        const email = document.getElementById('signupEmail').value.trim();
+        const pass = document.getElementById('signupPassword').value;
+        const agreed = document.getElementById('agreeTerms').checked;
+        if (!name || !email || !pass) {
+          err.textContent = 'Please complete all fields.';
+          return;
+        }
+        if (!agreed) {
+          err.textContent = 'Please agree to personal data processing.';
+          return;
+        }
+        show('phone');
+      });
+
+      const phoneInput = document.getElementById('phoneInput');
+      const phoneError = document.getElementById('phoneError');
+      const sendCodeBtn = document.getElementById('sendCodeBtn');
+      const maskedPhoneEl = document.getElementById('maskedPhone');
+      const otpInputs = [...document.querySelectorAll('.otp-digit')];
+      const otpError = document.getElementById('otpError');
+      const resendTimerEl = document.getElementById('resendTimer');
+      const resendTimerWrap = document.getElementById('resendTimerWrap');
+      const resendBtn = document.getElementById('resendBtn');
+
+      function onlyDigits(s) { return s.replace(/\D/g, ''); }
+
+      function formatPhone(d) {
+        if (d.length <= 3) return d;
+        if (d.length <= 6) return d.slice(0, 3) + ' ' + d.slice(3);
+        return d.slice(0, 3) + ' ' + d.slice(3, 6) + ' ' + d.slice(6, 10);
+      }
+
+      function startResendCountdown() {
+        if (countdownId) clearInterval(countdownId);
+        resendSeconds = 60;
+        resendBtn.hidden = true;
+        resendBtn.disabled = true;
+        resendTimerWrap.hidden = false;
+        function tick() {
+          const m = Math.floor(resendSeconds / 60);
+          const s = resendSeconds % 60;
+          resendTimerEl.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+          if (resendSeconds <= 0) {
+            clearInterval(countdownId);
+            countdownId = null;
+            resendTimerWrap.hidden = true;
+            resendBtn.hidden = false;
+            resendBtn.disabled = false;
+            return;
+          }
+          resendSeconds--;
+        }
+        tick();
+        countdownId = setInterval(tick, 1000);
+      }
+
+      sendCodeBtn.addEventListener('click', () => {
+        phoneError.textContent = '';
+        const digits = onlyDigits(phoneInput.value);
+        if (digits.length < 10) {
+          phoneError.textContent = 'Enter a valid phone number.';
+          return;
+        }
+        maskedPhoneEl.textContent = '+' + digits;
+        otpInputs.forEach(i => { i.value = ''; });
+        otpError.textContent = '';
+        show('otp');
+        startResendCountdown();
+        requestAnimationFrame(() => otpInputs[0].focus());
+      });
+
+      document.getElementById('otpBackBtn').addEventListener('click', () => {
+        if (countdownId) clearInterval(countdownId);
+        show('phone');
+      });
+
+      resendBtn.addEventListener('click', () => {
+        otpError.textContent = '';
+        startResendCountdown();
+      });
+
+      phoneInput.addEventListener('input', () => {
+        const d = onlyDigits(phoneInput.value).slice(0, 15);
+        phoneInput.value = formatPhone(d);
+      });
+
+      otpInputs.forEach((input, idx) => {
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !input.value && idx > 0) {
+            e.preventDefault();
+            otpInputs[idx - 1].focus();
+            otpInputs[idx - 1].value = '';
+          }
+          if (e.key === 'ArrowLeft' && idx > 0) { e.preventDefault(); otpInputs[idx - 1].focus(); }
+          if (e.key === 'ArrowRight' && idx < 5) { e.preventDefault(); otpInputs[idx + 1].focus(); }
+        });
+        input.addEventListener('input', () => {
+          otpError.textContent = '';
+          const v = onlyDigits(input.value).slice(-1);
+          input.value = v;
+          if (v && idx < 5) otpInputs[idx + 1].focus();
+          const code = otpInputs.map(i => i.value).join('');
+          if (code.length === 6) {
+            window.location.href = 'index.html';
+          }
+        });
+        input.addEventListener('paste', (e) => {
+          const chars = onlyDigits(e.clipboardData.getData('text')).slice(0, 6).split('');
+          if (!chars.length) return;
+          e.preventDefault();
+          chars.forEach((c, i) => { if (otpInputs[idx + i]) otpInputs[idx + i].value = c; });
+          otpInputs[Math.min(5, idx + chars.length)].focus();
+        });
+        input.addEventListener('focus', () => input.select());
+      });
+    })();
+  </script>
+</body>
+</html>
