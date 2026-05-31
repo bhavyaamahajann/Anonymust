@@ -1,0 +1,66 @@
+:root, [data-theme="light"] {
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2rem);
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+  --radius-sm: .5rem; --radius-md: .875rem; --radius-lg: 1.125rem; --radius-xl: 1.5rem; --radius-full: 999px;
+  --color-bg: #f7f6f2; --color-surface: #f9f8f5; --color-surface-2: #ffffff; --color-surface-offset: #efece6; --color-border: #d9d5cf;
+  --color-text: #28251d; --color-text-muted: #6f6b64; --color-text-faint: #a9a59d; --color-text-inverse: #fbfaf7;
+  --color-primary: #0c7b72; --color-primary-hover: #085d57; --color-primary-soft: #dcecea;
+  --color-accent: #f29b7a; --color-accent-soft: #fce6dd; --color-success: #4d7a38; --color-warning: #b06a1f;
+  --shadow-sm: 0 2px 10px rgba(31,29,26,.05); --shadow-md: 0 12px 30px rgba(31,29,26,.09); --shadow-lg: 0 24px 50px rgba(31,29,26,.12);
+  --font-body: 'Satoshi', sans-serif;
+  --phone-w: min(100vw, 430px);
+  --safe-bottom: max(14px, env(safe-area-inset-bottom));
+
+  /* Login / Signup Tokens */
+  --brand: #4a8191;
+  --brand-dark: #2f5f6b;
+  --teal: #0d8f89;
+  --teal-hover: #0a756f;
+  --green: #3d9b6e;
+  --green-muted: #2bae7b;
+  --mint: #b8e8d4;
+  --forest: #2d6a4f;
+  --lavender: #d4c5e8;
+  --navy: #0f3d4a;
+  --navy-mid: #1a5c6e;
+  --sky: #5eb8c9;
+  --bg: #ffffff;
+  --input-bg: #f5f6f8;
+  --card: #ffffff;
+  --text: #1c1c1e;
+  --text-muted: #6b6b70;
+  --text-placeholder: #9a9aa0;
+  --border: #d8dde3;
+  --otp-bg: #f0f1f3;
+  --radius-card: 28px 28px 0 0;
+}
+
+[data-theme="dark"] {
+  --color-bg: #171614; --color-surface: #1d1c19; --color-surface-2: #23211f; --color-surface-offset: #2a2724; --color-border: #383531;
+  --color-text: #ece8df; --color-text-muted: #b6b1a7; --color-text-faint: #7f796f; --color-text-inverse: #161411;
+  --color-primary: #68b6ad; --color-primary-hover: #8bc8c1; --color-primary-soft: #243433;
+  --color-accent: #ffb08f; --color-accent-soft: #3a2a23; --color-success: #8db772; --color-warning: #efb66b;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,.22); --shadow-md: 0 16px 40px rgba(0,0,0,.28); --shadow-lg: 0 24px 50px rgba(0,0,0,.4);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; min-height: 100%; font-family: 'Satoshi', sans-serif; background-color: var(--navy); }
+
+/* Common styles for App wrapper */
+.app-container {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background: radial-gradient(circle at top, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 28%), var(--color-bg);
+}
+
+@media (max-width: 430px) {
+  .app-container {
+    padding: 0;
+  }
+}
