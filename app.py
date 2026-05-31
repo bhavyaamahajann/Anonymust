@@ -10,13 +10,13 @@ st.set_page_config(
     layout="centered"
 )
 
-# Custom CSS matching authentic premium styling
+# Custom CSS matching authentic premium mockup styling
 st.markdown("""
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 <style>
     html, body, [data-testid="stAppViewContainer"] {
         font-family: 'Satoshi', sans-serif;
-        background-color: #f7f6f2;
+        background-color: #f1f8f9;
         color: #28251d;
     }
     .main-header {
@@ -24,29 +24,80 @@ st.markdown("""
         align-items: center;
         gap: 15px;
         margin-bottom: 20px;
+        justify-content: center;
+        padding-top: 20px;
     }
-    .logo-container {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        background: linear-gradient(145deg, #0c7b72, #f29b7a);
-        display: grid;
-        place-items: center;
-        color: white;
-        font-size: 24px;
+    
+    /* Mockup Overlapping Circle Logo */
+    .logo-mockup {
+        position: relative;
+        width: 72px;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .circle-bg {
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        opacity: 0.65;
+    }
+    .circle-1 {
+        background: #4caf50;
+        left: 6px;
+        z-index: 1;
+    }
+    .circle-2 {
+        background: #00bcd4;
+        right: 12px;
+        z-index: 2;
+    }
+    .circle-3 {
+        background: #e0e0e0;
+        left: 18px;
+        bottom: 4px;
+        z-index: 0;
+    }
+    .smile-face {
+        position: absolute;
+        z-index: 3;
+        font-size: 14px;
+        color: #1c3d3a;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        transform: translateY(-2px);
         font-weight: bold;
     }
+    
     .brand-title {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 900;
+        color: #007b83;
         margin: 0;
         line-height: 1;
+        letter-spacing: -0.03em;
     }
-    .brand-subtitle {
-        font-size: 14px;
-        color: #6f6b64;
-        margin: 0;
+    
+    .teal-sheet-card {
+        background: #00828a;
+        border-radius: 24px;
+        padding: 28px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-bottom: 25px;
+        color: white;
     }
+    
+    .teal-sheet-card h2 {
+        color: white;
+        text-align: center;
+        font-size: 26px;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+    
     .hero-card {
         background: linear-gradient(160deg, rgba(12, 123, 114, 0.1), #ffffff);
         border-radius: 16px;
@@ -132,13 +183,6 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         margin-top: 15px;
     }
-    /* Auth Form style adaptations */
-    .auth-title {
-        color: #1a5c6e;
-        font-weight: 800;
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -181,26 +225,6 @@ def init_db():
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         """)
-        
-        # Seed default posts if empty
-        cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) FROM posts")
-        if cursor.fetchone()[0] == 0:
-            conn.execute("""
-                INSERT INTO posts (content, mood, category, role, avatar, ai_note, created_at)
-                VALUES 
-                ('I spent the whole morning fixing a process that broke because nobody had context. I’m not angry, just drained.', 'tense', 'workload', 'Ops Team', 'A', 'AI reflection: This sounds like invisible labor plus low recognition. Suggested reset: 3-minute decompression before your next handoff.', datetime('now', '-12 minutes')),
-                ('Back-to-back calls all day. I need a way to vent without sounding dramatic.', 'overloaded', 'meetings', 'Product Circle', 'N', 'Micro-support from peers: “Mute one notification stream for 20 minutes and reclaim your headspace.”', datetime('now', '-1 hour'))
-            """)
-            
-            # Seed default checkins
-            conn.execute("INSERT INTO checkins (score, created_at) VALUES (44, datetime('now', '-6 days'))")
-            conn.execute("INSERT INTO checkins (score, created_at) VALUES (58, datetime('now', '-5 days'))")
-            conn.execute("INSERT INTO checkins (score, created_at) VALUES (49, datetime('now', '-4 days'))")
-            conn.execute("INSERT INTO checkins (score, created_at) VALUES (76, datetime('now', '-3 days'))")
-            conn.execute("INSERT INTO checkins (score, created_at) VALUES (64, datetime('now', '-2 days'))")
-            conn.execute("INSERT INTO checkins (score, created_at) VALUES (82, datetime('now', '-1 days'))")
-            conn.execute("INSERT INTO checkins (score, created_at) VALUES (68, datetime('now'))")
         conn.commit()
 
 init_db()
@@ -235,10 +259,18 @@ def get_ai_reflection(content, mood):
 # Header Logo area
 st.markdown("""
 <div class="main-header">
-    <div class="logo-container">☁️</div>
+    <div class="logo-mockup">
+        <div class="circle-bg circle-1"></div>
+        <div class="circle-bg circle-2"></div>
+        <div class="circle-bg circle-3"></div>
+        <div class="smile-face">
+            <span>•</span>
+            <span style="font-size:10px; margin-top:2px;">◡</span>
+            <span>•</span>
+        </div>
+    </div>
     <div>
         <h1 class="brand-title">AnonyMust</h1>
-        <p class="brand-subtitle">Safe release, gentle recovery</p>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -247,41 +279,45 @@ st.markdown("""
 if not st.session_state.authenticated:
     
     if st.session_state.auth_step == "welcome":
+        with st.container():
+            st.markdown("""
+            <div class="teal-sheet-card" style="text-align: center;">
+                <h2>Welcome Back!</h2>
+                <p style="color:rgba(255,255,255,0.8); font-size:14px; margin-bottom:20px;">Share freely, heal together. Sign in or create your safe space.</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            col1, col2 = st.columns(2)
+            if col1.button("Sign In", use_container_width=True, type="secondary"):
+                st.session_state.auth_step = "login"
+                st.rerun()
+            if col2.button("Sign Up", use_container_width=True, type="primary"):
+                st.session_state.auth_step = "signup"
+                st.rerun()
+            
+    elif st.session_state.auth_step == "login":
         st.markdown("""
-        <div class="hero-card" style="text-align: center;">
-            <div style="font-size: 40px; margin-bottom:10px;">☁️</div>
-            <h2 class="welcome-title" style="color:#0f3d4a; font-weight:800; font-size:24px;">Welcome Back!</h2>
-            <p style="color:#6f6b64; font-size:14px; margin-bottom:20px;">Share freely, heal together. Sign in or create your safe space.</p>
+        <div class="teal-sheet-card">
+            <h2>Log In</h2>
         </div>
         """, unsafe_allow_html=True)
         
-        col1, col2 = st.columns(2)
-        if col1.button("Sign In", use_container_width=True, type="secondary"):
-            st.session_state.auth_step = "login"
-            st.rerun()
-        if col2.button("Sign Up", use_container_width=True, type="primary"):
-            st.session_state.auth_step = "signup"
-            st.rerun()
-            
-    elif st.session_state.auth_step == "login":
-        st.markdown('<p class="auth-title">Welcome Back</p>', unsafe_allow_html=True)
-        email = st.text_input("Email", placeholder="Enter Email")
-        password = st.text_input("Password", type="password", placeholder="Enter Password")
+        email = st.text_input("✉️ Email", placeholder="john.doe@example.com")
+        password = st.text_input("🔒 Password", type="password", placeholder="••••••••••••")
         
         col1, col2 = st.columns([1, 1])
         if col1.button("Back", use_container_width=True):
             st.session_state.auth_step = "welcome"
             st.rerun()
-        if col2.button("Sign in", use_container_width=True, type="primary"):
+        if col2.button("Log In", use_container_width=True, type="primary"):
             if not email or not password:
                 st.error("Please fill in email and password.")
             else:
-                # Query db
                 with get_db() as conn:
                     cursor = conn.cursor()
                     cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
                     user = cursor.fetchone()
-                    if user and user['password'] == password: # Simple plaintext comparison for streamlit mock
+                    if user and user['password'] == password:
                         st.session_state.authenticated = True
                         st.session_state.user_name = user['name']
                         st.success("Successfully logged in!")
@@ -295,24 +331,33 @@ if not st.session_state.authenticated:
             st.rerun()
             
     elif st.session_state.auth_step == "signup":
-        st.markdown('<p class="auth-title">Get Started</p>', unsafe_allow_html=True)
-        name = st.text_input("Full Name", placeholder="Enter Full Name")
-        email = st.text_input("Email", placeholder="Enter Email")
-        password = st.text_input("Password", type="password", placeholder="Enter Password")
-        agree = st.checkbox("I agree to the processing of Personal data")
+        st.markdown("""
+        <div class="teal-sheet-card">
+            <h2>Sign Up</h2>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        first_name = st.text_input("👤 First Name", placeholder="John")
+        last_name = st.text_input("👤 Last Name", placeholder="Doe")
+        email = st.text_input("✉️ Email", placeholder="john.doe@example.com")
+        password = st.text_input("🔒 Password", type="password", placeholder="••••••••••••")
+        confirm_password = st.text_input("🔒 Confirm Password", type="password", placeholder="••••••••••••")
+        agree = st.checkbox("I agree to the Terms of Service and Privacy Policy", value=True)
         
         col1, col2 = st.columns(2)
         if col1.button("Back", use_container_width=True):
             st.session_state.auth_step = "welcome"
             st.rerun()
-        if col2.button("Sign up", use_container_width=True, type="primary"):
-            if not name or not email or not password:
+        if col2.button("Sign Up", use_container_width=True, type="primary"):
+            if not first_name or not last_name or not email or not password or not confirm_password:
                 st.error("Please complete all fields.")
+            elif password != confirm_password:
+                st.error("Passwords do not match.")
             elif not agree:
                 st.error("Please agree to personal data processing.")
             else:
                 st.session_state.signup_data = {
-                    "name": name,
+                    "name": f"{first_name} {last_name}",
                     "email": email,
                     "password": password
                 }
@@ -320,8 +365,12 @@ if not st.session_state.authenticated:
                 st.rerun()
 
     elif st.session_state.auth_step == "phone":
-        st.markdown('<p class="auth-title">Verify Mobile Number</p>', unsafe_allow_html=True)
-        phone = st.text_input("Phone Number", placeholder="e.g. +1 555-0199")
+        st.markdown("""
+        <div class="teal-sheet-card">
+            <h2>Verify Phone</h2>
+        </div>
+        """, unsafe_allow_html=True)
+        phone = st.text_input("📞 Phone Number", placeholder="e.g. +1 555-0199")
         
         col1, col2 = st.columns(2)
         if col1.button("Back", use_container_width=True):
@@ -331,7 +380,6 @@ if not st.session_state.authenticated:
             if not phone:
                 st.error("Please enter your phone number.")
             else:
-                # Generate random 6 digit OTP
                 code = str(random.randint(100000, 999999))
                 st.session_state.phone_number = phone
                 st.session_state.mock_otp = code
@@ -339,10 +387,12 @@ if not st.session_state.authenticated:
                 st.rerun()
 
     elif st.session_state.auth_step == "otp":
-        st.markdown('<p class="auth-title">Verify OTP</p>', unsafe_allow_html=True)
-        st.write(f"Enter the 6-digit OTP sent to: **{st.session_state.phone_number}**")
-        
-        # Display helper alert for testing
+        st.markdown("""
+        <div class="teal-sheet-card">
+            <h2>Enter OTP</h2>
+        </div>
+        """, unsafe_allow_html=True)
+        st.write(f"Enter the 6-digit OTP code sent to: **{st.session_state.phone_number}**")
         st.info(f"Demo OTP Code: {st.session_state.mock_otp}")
         
         entered_code = st.text_input("OTP Code", placeholder="XXXXXX", max_chars=6)
@@ -353,7 +403,6 @@ if not st.session_state.authenticated:
             st.rerun()
         if col2.button("Verify Code", use_container_width=True, type="primary"):
             if entered_code == st.session_state.mock_otp:
-                # Register user if signup data is stored
                 if st.session_state.signup_data:
                     sd = st.session_state.signup_data
                     try:
@@ -365,7 +414,6 @@ if not st.session_state.authenticated:
                             conn.commit()
                         st.session_state.user_name = sd["name"]
                     except sqlite3.IntegrityError:
-                        st.error("Email already exists. Logging into existing account.")
                         st.session_state.user_name = sd["name"]
                 else:
                     st.session_state.user_name = f"User {st.session_state.phone_number[-4:]}"
@@ -374,7 +422,7 @@ if not st.session_state.authenticated:
                 st.success("Successfully Verified!")
                 st.rerun()
             else:
-                st.error("Invalid OTP code. Please check the code provided in the info box above.")
+                st.error("Invalid OTP code.")
 
 # ----------------- APP SYSTEM -----------------
 else:
@@ -398,7 +446,6 @@ else:
 
     # Render views
     if view_selection == "Home & Feed":
-        # Hero card
         st.markdown("""
         <div class="hero-card">
             <div class="eyebrow">Revived Streamlit App</div>
@@ -430,7 +477,6 @@ else:
         col1.metric("Pulse Score", f"{pulse_score}%", "Calmer than Monday")
         col2.metric("Nudges Completed", posts_count)
         
-        # Micro intervention card
         st.markdown("""
         <div class="card" style="display:flex; gap:12px; align-items:flex-start;">
             <div style="font-size:24px;">☁️</div>
@@ -441,7 +487,6 @@ else:
         </div>
         """, unsafe_allow_html=True)
         
-        # Feed list
         st.markdown("### Community Moments (Anonymous Feed)")
         
         with get_db() as conn:
@@ -499,7 +544,6 @@ else:
             if not content.strip():
                 st.warning("Please type a short note before posting.")
             else:
-                # Pick a random avatar
                 roles = [
                     ("Ops Team", "A"),
                     ("Product Circle", "P"),
@@ -510,14 +554,12 @@ else:
                 role_name, avatar_letter = random.choice(roles)
                 ai_note = get_ai_reflection(content, mood)
                 
-                # Insert into database
                 with get_db() as conn:
                     conn.execute(
                         "INSERT INTO posts (content, mood, category, role, avatar, ai_note) VALUES (?, ?, ?, ?, ?, ?)",
                         (content, mood_emojis[mood] + " " + mood, category, role_name, avatar_letter, ai_note)
                     )
                     
-                    # record checkin score
                     score_map = {"sad": 20, "tense": 45, "frustrated": 30, "steady": 70, "hopeful": 90}
                     conn.execute("INSERT INTO checkins (score) VALUES (?)", (score_map[mood],))
                     conn.commit()
