@@ -253,30 +253,17 @@ def init_db():
 
 init_db()
 
-# Sidebar Brand Vector Logo matching the user artwork image
+# Compact 3-Circle Dots Logo (Perfectly Sized for Sidebar)
 st.sidebar.markdown("""
 <div style="display:flex; align-items:center; margin-bottom:18px;">
-    <svg width="220" height="72" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="180" height="48" viewBox="0 0 200 52" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g opacity="0.9">
-        <ellipse cx="62" cy="38" rx="35" ry="33" fill="#6bd297" />
-        <ellipse cx="48" cy="58" rx="33" ry="30" fill="#46b77c" />
-        <ellipse cx="88" cy="54" rx="33" ry="30" fill="#e8e8ee" opacity="0.85" />
+        <ellipse cx="26" cy="20" rx="19" ry="18" fill="#6bd297" />
+        <ellipse cx="18" cy="31" rx="18" ry="17" fill="#46b77c" />
+        <ellipse cx="40" cy="29" rx="18" ry="17" fill="#e8e8ee" opacity="0.85" />
       </g>
-      <ellipse cx="58" cy="46" rx="22" ry="20" fill="#2d875e" opacity="0.4" />
-      <path d="M 45 27 Q 50 24 54 27" stroke="#1c4535" stroke-width="2" stroke-linecap="round" fill="none" />
-      <path d="M 68 27 Q 73 24 77 27" stroke="#1c4535" stroke-width="2" stroke-linecap="round" fill="none" />
-      <path d="M 42 36 Q 48 42 54 36" stroke="#1c4535" stroke-width="2.8" stroke-linecap="round" fill="none" />
-      <path d="M 40 35 L 37 32" stroke="#1c4535" stroke-width="2" stroke-linecap="round" />
-      <path d="M 43 38 L 41 42" stroke="#1c4535" stroke-width="2" stroke-linecap="round" />
-      <path d="M 54 37 L 56 40" stroke="#1c4535" stroke-width="2" stroke-linecap="round" />
-      <path d="M 66 36 Q 72 42 78 36" stroke="#1c4535" stroke-width="2.8" stroke-linecap="round" fill="none" />
-      <path d="M 66 37 L 64 40" stroke="#1c4535" stroke-width="2" stroke-linecap="round" />
-      <path d="M 77 38 L 79 42" stroke="#1c4535" stroke-width="2" stroke-linecap="round" />
-      <path d="M 80 35 L 83 32" stroke="#1c4535" stroke-width="2" stroke-linecap="round" />
-      <path d="M 37 43 L 37 47 M 40 43 L 40 47 M 43 43 L 43 47" stroke="#319660" stroke-width="1.8" stroke-linecap="round" />
-      <path d="M 77 43 L 77 47 M 80 43 L 80 47 M 83 43 L 83 47" stroke="#319660" stroke-width="1.8" stroke-linecap="round" />
-      <path d="M 53 45 Q 60 52 67 45" stroke="#1c4535" stroke-width="2.8" stroke-linecap="round" fill="none" />
-      <text x="112" y="52" font-family="'Satoshi', 'Inter', sans-serif" font-weight="900" font-size="33" fill="#138496" letter-spacing="-0.02em">AnonyMust</text>
+      <ellipse cx="24" cy="25" rx="12" ry="11" fill="#2d875e" opacity="0.4" />
+      <text x="64" y="34" font-family="'Satoshi', 'Inter', sans-serif" font-weight="900" font-size="24" fill="#138496" letter-spacing="-0.02em">AnonyMust</text>
     </svg>
 </div>
 """, unsafe_allow_html=True)
