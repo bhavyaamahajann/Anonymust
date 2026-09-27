@@ -5,183 +5,157 @@ import random
 
 # Page Config
 st.set_page_config(
-    page_title="Anonymust — Safe Release",
-    page_icon="☁️",
-    layout="centered"
+    page_title="AnonyMust — Wellness Dashboard",
+    page_icon="✦",
+    layout="wide"
 )
 
-# Custom CSS matching authentic premium mockup styling
+# Custom CSS matching the new Dashboard design
 st.markdown("""
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+    :root {
+      --bg: #f6f8f5;
+      --surface: #ffffff;
+      --ink: #17231f;
+      --muted: #77837d;
+      --line: #e6ebe7;
+      --mint: #c8efd8;
+      --mint2: #e9f8ee;
+      --green: #2e805c;
+      --dark: #1b3028;
+      --amber: #f3c779;
+      --lav: #e6def8;
+      --coral: #ffd9cf;
+    }
+
     html, body, [data-testid="stAppViewContainer"] {
-        font-family: 'Satoshi', sans-serif;
-        background-color: #f1f8f9;
-        color: #28251d;
+        font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+        background-color: var(--bg);
+        color: var(--ink);
     }
-    .main-header {
+    
+    [data-testid="stSidebar"] {
+        background-color: #ffffff;
+        border-right: 1px solid var(--line);
+    }
+
+    .brand-header {
         display: flex;
         align-items: center;
-        gap: 15px;
-        margin-bottom: 20px;
-        justify-content: center;
-        padding-top: 20px;
-    }
-    
-    /* Mockup Overlapping Circle Logo */
-    .logo-mockup {
-        position: relative;
-        width: 72px;
-        height: 52px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .circle-bg {
-        position: absolute;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        opacity: 0.65;
-    }
-    .circle-1 {
-        background: #4caf50;
-        left: 6px;
-        z-index: 1;
-    }
-    .circle-2 {
-        background: #00bcd4;
-        right: 12px;
-        z-index: 2;
-    }
-    .circle-3 {
-        background: #e0e0e0;
-        left: 18px;
-        bottom: 4px;
-        z-index: 0;
-    }
-    .smile-face {
-        position: absolute;
-        z-index: 3;
-        font-size: 14px;
-        color: #1c3d3a;
-        display: flex;
-        gap: 4px;
-        align-items: center;
-        transform: translateY(-2px);
-        font-weight: bold;
-    }
-    
-    .brand-title {
-        font-size: 32px;
-        font-weight: 900;
-        color: #007b83;
-        margin: 0;
-        line-height: 1;
-        letter-spacing: -0.03em;
-    }
-    
-    .teal-sheet-card {
-        background: #00828a;
-        border-radius: 24px;
-        padding: 28px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        margin-bottom: 25px;
-        color: white;
-    }
-    
-    .teal-sheet-card h2 {
-        color: white;
-        text-align: center;
-        font-size: 26px;
+        gap: 11px;
         font-weight: 800;
-        margin-bottom: 20px;
-    }
-    
-    .hero-card {
-        background: linear-gradient(160deg, rgba(12, 123, 114, 0.1), #ffffff);
-        border-radius: 16px;
-        padding: 20px;
-        border: 1px solid rgba(12, 123, 114, 0.15);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        margin-bottom: 25px;
-    }
-    .hero-title {
         font-size: 20px;
-        font-weight: 800;
-        line-height: 1.2;
-        margin-bottom: 8px;
+        color: var(--ink);
+        margin-bottom: 24px;
     }
-    .hero-desc {
-        font-size: 14px;
-        color: #6f6b64;
-        margin-bottom: 12px;
-    }
-    .chip {
-        display: inline-block;
-        padding: 6px 12px;
-        border-radius: 999px;
-        background: #efece6;
-        border: 1px solid #d9d5cf;
-        font-size: 11px;
-        margin-right: 8px;
-        margin-bottom: 8px;
-        color: #28251d;
-    }
-    .card {
-        background: white;
-        border: 1px solid #efece6;
-        border-radius: 12px;
-        padding: 16px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.01);
-        margin-bottom: 16px;
-        color: #28251d;
-    }
-    .post-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-    .avatar-role {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    .avatar {
-        width: 38px;
-        height: 38px;
-        border-radius: 8px;
-        background: rgba(12, 123, 114, 0.15);
-        color: #0c7b72;
+    .brandmark {
+        height: 32px;
+        width: 32px;
+        border-radius: 10px 10px 10px 3px;
+        background: var(--dark);
         display: grid;
         place-items: center;
-        font-weight: bold;
+        color: #d6f7e1;
+        font-size: 18px;
     }
-    .role-text {
-        font-weight: 700;
+
+    .hero-banner {
+        background: var(--dark);
+        color: white;
+        border-radius: 24px;
+        padding: 28px 30px;
+        margin-bottom: 24px;
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-banner h2 {
+        font-size: 26px;
+        font-weight: 800;
+        color: white;
+        margin: 5px 0 10px;
+    }
+    .hero-banner p {
+        color: #c1d1c8;
         font-size: 14px;
+        margin: 0;
+        max-width: 540px;
+        line-height: 1.5;
     }
-    .time-text {
+    .eyebrow-text {
         font-size: 11px;
-        color: #8b877f;
+        color: #a8d9bb;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .12em;
     }
-    .ai-note {
-        padding: 10px 12px;
-        border-radius: 8px;
-        background: rgba(12, 123, 114, 0.08);
-        border-left: 3px solid #0c7b72;
+
+    .card-box {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(25, 50, 38, .06);
+        margin-bottom: 18px;
+    }
+    .metric-label {
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 650;
+    }
+    .metric-val {
+        font-size: 28px;
+        font-weight: 800;
+        margin: 8px 0 4px;
+        letter-spacing: -.04em;
+    }
+    .metric-delta {
         font-size: 12px;
-        color: #28251d;
-        margin-top: 10px;
+        color: var(--green);
+        font-weight: 700;
     }
-    .toast-container {
-        padding: 12px;
-        background: white;
-        border-radius: 8px;
-        border: 1px solid #0c7b72;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        margin-top: 15px;
+    .metric-delta.neutral {
+        color: var(--muted);
+    }
+
+    .post-item {
+        display: flex;
+        gap: 13px;
+        align-items: flex-start;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--line);
+    }
+    .post-item:last-child {
+        border-bottom: 0;
+    }
+    .post-icon {
+        background: var(--mint2);
+        width: 34px;
+        height: 34px;
+        border-radius: 11px;
+        display: grid;
+        place-items: center;
+        color: var(--green);
+        flex-shrink: 0;
+    }
+    .tag-chip {
+        background: var(--mint2);
+        color: var(--green);
+        padding: 4px 10px;
+        border-radius: 99px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+    .privacy-card {
+        background: #f4faf5;
+        border: 1px solid #d8eee0;
+        border-radius: 14px;
+        padding: 15px;
+        font-size: 12px;
+        color: #557063;
+        line-height: 1.45;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -197,416 +171,268 @@ def get_db():
 def init_db():
     with get_db() as conn:
         conn.execute("""
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL,
-                phone TEXT,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-        """)
-        conn.execute("""
-            CREATE TABLE IF NOT EXISTS posts (
+            CREATE TABLE IF NOT EXISTS journal_entries (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 content TEXT NOT NULL,
                 mood TEXT NOT NULL,
-                category TEXT NOT NULL,
-                role TEXT NOT NULL,
-                avatar TEXT NOT NULL,
-                ai_note TEXT,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         """)
         conn.execute("""
-            CREATE TABLE IF NOT EXISTS checkins (
+            CREATE TABLE IF NOT EXISTS community_posts (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                score INTEGER NOT NULL,
+                content TEXT NOT NULL,
+                tag TEXT NOT NULL,
+                likes INTEGER DEFAULT 0,
+                replies INTEGER DEFAULT 0,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        
+        # Seed default items if empty
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM journal_entries")
+        if cursor.fetchone()[0] == 0:
+            conn.execute("INSERT INTO journal_entries (content, mood, created_at) VALUES ('The presentation went better than I expected. I felt prepared.', 'Calm', datetime('now', '-2 hours'))")
+            conn.execute("INSERT INTO journal_entries (content, mood, created_at) VALUES ('Too many meetings today, but a short walk helped me reset.', 'Mixed', datetime('now', '-1 day'))")
+            conn.execute("INSERT INTO journal_entries (content, mood, created_at) VALUES ('Started the week feeling focused and energized.', 'Positive', datetime('now', '-6 days'))")
+            
+        cursor.execute("SELECT COUNT(*) FROM community_posts")
+        if cursor.fetchone()[0] == 0:
+            conn.execute("INSERT INTO community_posts (content, tag, likes, replies, created_at) VALUES ('I keep saying yes to everything and now I’m exhausted. Does anyone else struggle to pause?', 'Work stress', 18, 4, datetime('now', '-8 minutes'))")
+            conn.execute("INSERT INTO community_posts (content, tag, likes, replies, created_at) VALUES ('Took a 10-minute walk between calls. It didn’t fix everything, but it helped.', 'Small win', 31, 6, datetime('now', '-24 minutes'))")
+            conn.execute("INSERT INTO community_posts (content, tag, likes, replies, created_at) VALUES ('Reminder: a slow day is still a day. You don’t need to earn rest.', 'Support', 45, 9, datetime('now', '-1 hour'))")
         conn.commit()
 
 init_db()
 
-# Session State Initialization
-if "authenticated" not in st.session_state:
-    st.session_state.authenticated = False
-if "auth_step" not in st.session_state:
-    st.session_state.auth_step = "welcome"
-if "user_name" not in st.session_state:
-    st.session_state.user_name = None
-if "phone_number" not in st.session_state:
-    st.session_state.phone_number = None
-if "signup_data" not in st.session_state:
-    st.session_state.signup_data = None
-if "mock_otp" not in st.session_state:
-    st.session_state.mock_otp = None
-
-# Helper functions for AI reflections
-def get_ai_reflection(content, mood):
-    text = content.lower()
-    if mood == 'tense' or 'drained' in text or 'exhausted' in text or 'tired' in text:
-        return 'AI reflection: This sounds like invisible labor plus low recognition. Suggested reset: 3-minute decompression before your next handoff.'
-    elif mood == 'frustrated' or 'angry' in text or 'hate' in text or 'stupid' in text:
-        return 'AI reflection: Frustration usually hides overload. Suggested support: Write down one task that should not be yours today, and step away from the keyboard for 5 minutes.'
-    elif mood == 'sad' or 'heavy' in text or 'sad' in text or 'cry' in text:
-        return 'AI reflection: This feels heavy. Micro-support: Step away for a glass of water, then share how you feel with one trusted colleague or friend.'
-    elif mood == 'hopeful' or 'happy' in text or 'good' in text or 'win' in text:
-        return 'AI reflection: Protect that positive momentum! Suggestion: Write down this victory so you can recall it during a future stressful day.'
-    return 'AI reflection: You are maintaining a steady pace. Keep taking small micro-resets throughout the day to sustain your headspace.'
-
-# Header Logo area
-st.markdown("""
-<div class="main-header">
-    <div class="logo-mockup">
-        <div class="circle-bg circle-1"></div>
-        <div class="circle-bg circle-2"></div>
-        <div class="circle-bg circle-3"></div>
-        <div class="smile-face">
-            <span>•</span>
-            <span style="font-size:10px; margin-top:2px;">◡</span>
-            <span>•</span>
-        </div>
-    </div>
-    <div>
-        <h1 class="brand-title">AnonyMust</h1>
-    </div>
+# Sidebar Brand
+st.sidebar.markdown("""
+<div class="brand-header">
+    <div class="brandmark">✦</div>
+    <span>AnonyMust</span>
 </div>
 """, unsafe_allow_html=True)
 
-# ----------------- AUTH FLOW -----------------
-if not st.session_state.authenticated:
-    
-    if st.session_state.auth_step == "welcome":
-        with st.container():
-            st.markdown("""
-            <div class="teal-sheet-card" style="text-align: center;">
-                <h2>Welcome Back!</h2>
-                <p style="color:rgba(255,255,255,0.8); font-size:14px; margin-bottom:20px;">Share freely, heal together. Sign in or create your safe space.</p>
+nav_page = st.sidebar.radio(
+    "Navigation",
+    ["◉ Overview", "✎ My journal", "☵ Anonymous feed", "◒ AI insights", "♢ Privacy center"],
+    index=0
+)
+
+st.sidebar.markdown("""
+<br/>
+<div class="privacy-card">
+    <strong style="color:#2e805c;">Private by design</strong>
+    Your identity is never attached to a journal entry. You are in control.
+</div>
+""", unsafe_allow_html=True)
+
+# Main App Header
+current_date_str = datetime.datetime.now().strftime("%A, %B %d")
+st.markdown(f"""
+<div style="margin-bottom: 20px;">
+    <div style="font-size:12px; color:#77837d; font-weight:700; text-transform:uppercase; letter-spacing:.12em;">{current_date_str}</div>
+    <h1 style="font-size:30px; letter-spacing:-.03em; margin: 4px 0 0;">Good morning, Anon 👋</h1>
+</div>
+""", unsafe_allow_html=True)
+
+# NAV 1: OVERVIEW
+if nav_page == "◉ Overview":
+    st.markdown("""
+    <div class="hero-banner">
+        <div class="eyebrow-text">Your daily reset</div>
+        <h2>How are you feeling today?</h2>
+        <p>A small check-in now can help you notice stress before it becomes overwhelming.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Metrics Row
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM journal_entries")
+        total_entries = cursor.fetchone()[0]
+
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
+        st.markdown(f"""
+        <div class="card-box">
+            <div class="metric-label">Check-in streak</div>
+            <div class="metric-val">7 days</div>
+            <div class="metric-delta">↑ 2 days this week</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with c2:
+        st.markdown("""
+        <div class="card-box">
+            <div class="metric-label">Mood this week</div>
+            <div class="metric-val">Calmer</div>
+            <div class="metric-delta">↑ 12% from last week</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with c3:
+        st.markdown("""
+        <div class="card-box">
+            <div class="metric-label">Micro-actions</div>
+            <div class="metric-val">12</div>
+            <div class="metric-delta">68% completed</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with c4:
+        st.markdown(f"""
+        <div class="card-box">
+            <div class="metric-label">Private entries</div>
+            <div class="metric-val">{total_entries}</div>
+            <div class="metric-delta neutral">Only visible to you</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Charts and Snapshot Split
+    col_chart, col_snapshot = st.columns([1.5, 1])
+    with col_chart:
+        st.markdown("### Your mood pattern (Last 7 days)")
+        st.bar_chart([40, 55, 30, 68, 51, 74, 62], height=210)
+    with col_snapshot:
+        st.markdown("### Well-being snapshot")
+        st.write("• **Regulated**: 64%")
+        st.write("• **Elevated**: 22%")
+        st.write("• **Needs care**: 14%")
+        st.progress(0.64)
+
+    # Recent reflections & Suggestion
+    col_ref, col_sugg = st.columns([1.5, 1])
+    with col_ref:
+        st.markdown("### Recent reflections")
+        with get_db() as conn:
+            entries = conn.execute("SELECT * FROM journal_entries ORDER BY created_at DESC LIMIT 3").fetchall()
+            for entry in entries:
+                st.markdown(f"""
+                <div class="post-item">
+                    <div class="post-icon">✦</div>
+                    <div style="flex:1;">
+                        <p style="margin:0; font-size:14px;">“{entry['content']}”</p>
+                        <small style="color:#77837d;">Private entry</small>
+                    </div>
+                    <span class="tag-chip">{entry['mood']}</span>
+                </div>
+                """, unsafe_allow_html=True)
+
+    with col_sugg:
+        st.markdown("""
+        <div class="card-box" style="background:#e6def8; border:0;">
+            <h3 style="margin:0 0 8px;">One gentle suggestion</h3>
+            <p style="font-size:13px; color:#5b5572; line-height:1.5;">You’ve had several meeting-heavy days. Try a 5-minute screen-free reset before your next call.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+# NAV 2: MY JOURNAL
+elif nav_page == "✎ My journal":
+    st.markdown("""
+    <div class="hero-banner">
+        <div class="eyebrow-text">Private journal</div>
+        <h2>Make space for what you feel.</h2>
+        <p>No judgment, no pressure, and no identity attached. Just an honest moment for you.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col_input, col_recent = st.columns([1.5, 1])
+    with col_input:
+        st.markdown("### Daily check-in")
+        mood = st.select_slider("How would you describe your energy right now?", options=["Stressed 😣", "Uneasy 😕", "Neutral 😐", "Calm 🙂", "Positive 😊"], value="Neutral 😐")
+        journal_text = st.text_area("Want to get anything off your mind?", placeholder="Write freely… your entry stays private.", height=150)
+        
+        if st.button("Save privately", type="primary"):
+            if journal_text.strip():
+                mood_clean = mood.split()[0]
+                with get_db() as conn:
+                    conn.execute("INSERT INTO journal_entries (content, mood) VALUES (?, ?)", (journal_text.strip(), mood_clean))
+                    conn.commit()
+                st.success("Your reflection was saved privately!")
+                st.rerun()
+            else:
+                st.warning("Write a note to save your check-in.")
+
+    with col_recent:
+        st.markdown("### Recent entries")
+        with get_db() as conn:
+            entries = conn.execute("SELECT * FROM journal_entries ORDER BY created_at DESC").fetchall()
+            for entry in entries:
+                st.markdown(f"""
+                <div class="post-item">
+                    <div class="post-icon">✦</div>
+                    <div>
+                        <p style="margin:0; font-size:14px;">{entry['content']}</p>
+                        <small style="color:#77837d;">{entry['mood']}</small>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+# NAV 3: ANONYMOUS FEED
+elif nav_page == "☵ Anonymous feed":
+    st.markdown("""
+    <div class="card-box" style="background:#e9f8ee; border-color:#d8eee0;">
+        <strong style="color:#2e805c;">Community, without the identity</strong>
+        <p style="margin:4px 0 0; color:#557063; font-size:13px;">This feed is ephemeral and AI-moderated. Be kind, avoid identifying details, and remember that peer support is not professional care.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    with st.expander("💬 Share an anonymous rant / support post"):
+        new_rant = st.text_area("Write an anonymous message to the community...")
+        rant_tag = st.selectbox("Tag", ["Work stress", "Small win", "Support", "General"])
+        if st.button("Post Anonymously"):
+            if new_rant.strip():
+                with get_db() as conn:
+                    conn.execute("INSERT INTO community_posts (content, tag) VALUES (?, ?)", (new_rant.strip(), rant_tag))
+                    conn.commit()
+                st.success("Posted anonymously!")
+                st.rerun()
+
+    with get_db() as conn:
+        posts = conn.execute("SELECT * FROM community_posts ORDER BY created_at DESC").fetchall()
+        for post in posts:
+            st.markdown(f"""
+            <div class="card-box">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div>
+                        <p style="margin:0 0 8px; font-size:14px; line-height:1.45;">“{post['content']}”</p>
+                        <small style="color:#77837d;">Anonymous · {post['likes']} ♡ · {post['replies']} supportive replies</small>
+                    </div>
+                    <span class="tag-chip">{post['tag']}</span>
+                </div>
             </div>
             """, unsafe_allow_html=True)
-            
-            col1, col2 = st.columns(2)
-            if col1.button("Sign In", use_container_width=True, type="secondary"):
-                st.session_state.auth_step = "login"
-                st.rerun()
-            if col2.button("Sign Up", use_container_width=True, type="primary"):
-                st.session_state.auth_step = "signup"
-                st.rerun()
-            
-    elif st.session_state.auth_step == "login":
-        st.markdown("""
-        <div class="teal-sheet-card">
-            <h2>Log In</h2>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        email = st.text_input("✉️ Email", placeholder="john.doe@example.com")
-        password = st.text_input("🔒 Password", type="password", placeholder="••••••••••••")
-        
-        col1, col2 = st.columns([1, 1])
-        if col1.button("Back", use_container_width=True):
-            st.session_state.auth_step = "welcome"
-            st.rerun()
-        if col2.button("Log In", use_container_width=True, type="primary"):
-            if not email or not password:
-                st.error("Please fill in email and password.")
-            else:
-                with get_db() as conn:
-                    cursor = conn.cursor()
-                    cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
-                    user = cursor.fetchone()
-                    if user and user['password'] == password:
-                        st.session_state.authenticated = True
-                        st.session_state.user_name = user['name']
-                        st.success("Successfully logged in!")
-                        st.rerun()
-                    else:
-                        st.error("Invalid email or password.")
-                        
-        st.markdown("---")
-        if st.button("Continue with phone number", use_container_width=True):
-            st.session_state.auth_step = "phone"
-            st.rerun()
-            
-    elif st.session_state.auth_step == "signup":
-        st.markdown("""
-        <div class="teal-sheet-card">
-            <h2>Sign Up</h2>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        first_name = st.text_input("👤 First Name", placeholder="John")
-        last_name = st.text_input("👤 Last Name", placeholder="Doe")
-        email = st.text_input("✉️ Email", placeholder="john.doe@example.com")
-        password = st.text_input("🔒 Password", type="password", placeholder="••••••••••••")
-        confirm_password = st.text_input("🔒 Confirm Password", type="password", placeholder="••••••••••••")
-        agree = st.checkbox("I agree to the Terms of Service and Privacy Policy", value=True)
-        
-        col1, col2 = st.columns(2)
-        if col1.button("Back", use_container_width=True):
-            st.session_state.auth_step = "welcome"
-            st.rerun()
-        if col2.button("Sign Up", use_container_width=True, type="primary"):
-            if not first_name or not last_name or not email or not password or not confirm_password:
-                st.error("Please complete all fields.")
-            elif password != confirm_password:
-                st.error("Passwords do not match.")
-            elif not agree:
-                st.error("Please agree to personal data processing.")
-            else:
-                st.session_state.signup_data = {
-                    "name": f"{first_name} {last_name}",
-                    "email": email,
-                    "password": password
-                }
-                st.session_state.auth_step = "phone"
-                st.rerun()
 
-    elif st.session_state.auth_step == "phone":
-        st.markdown("""
-        <div class="teal-sheet-card">
-            <h2>Verify Phone</h2>
-        </div>
-        """, unsafe_allow_html=True)
-        phone = st.text_input("📞 Phone Number", placeholder="e.g. +1 555-0199")
-        
-        col1, col2 = st.columns(2)
-        if col1.button("Back", use_container_width=True):
-            st.session_state.auth_step = "welcome"
-            st.rerun()
-        if col2.button("Send Code", use_container_width=True, type="primary"):
-            if not phone:
-                st.error("Please enter your phone number.")
-            else:
-                code = str(random.randint(100000, 999999))
-                st.session_state.phone_number = phone
-                st.session_state.mock_otp = code
-                st.session_state.auth_step = "otp"
-                st.rerun()
+# NAV 4: AI INSIGHTS
+elif nav_page == "◒ AI insights":
+    st.markdown("""
+    <div class="hero-banner">
+        <div class="eyebrow-text">AI analysis</div>
+        <h2>Patterns, not labels.</h2>
+        <p>AnonyMust helps you reflect on signals in your entries. It does not diagnose or replace professional support.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    elif st.session_state.auth_step == "otp":
-        st.markdown("""
-        <div class="teal-sheet-card">
-            <h2>Enter OTP</h2>
-        </div>
-        """, unsafe_allow_html=True)
-        st.write(f"Enter the 6-digit OTP code sent to: **{st.session_state.phone_number}**")
-        st.info(f"Demo OTP Code: {st.session_state.mock_otp}")
-        
-        entered_code = st.text_input("OTP Code", placeholder="XXXXXX", max_chars=6)
-        
-        col1, col2 = st.columns(2)
-        if col1.button("Back", use_container_width=True):
-            st.session_state.auth_step = "phone"
-            st.rerun()
-        if col2.button("Verify Code", use_container_width=True, type="primary"):
-            if entered_code == st.session_state.mock_otp:
-                if st.session_state.signup_data:
-                    sd = st.session_state.signup_data
-                    try:
-                        with get_db() as conn:
-                            conn.execute(
-                                "INSERT INTO users (name, email, password, phone) VALUES (?, ?, ?, ?)",
-                                (sd["name"], sd["email"], sd["password"], st.session_state.phone_number)
-                            )
-                            conn.commit()
-                        st.session_state.user_name = sd["name"]
-                    except sqlite3.IntegrityError:
-                        st.session_state.user_name = sd["name"]
-                else:
-                    st.session_state.user_name = f"User {st.session_state.phone_number[-4:]}"
-                
-                st.session_state.authenticated = True
-                st.success("Successfully Verified!")
-                st.rerun()
-            else:
-                st.error("Invalid OTP code.")
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Current signal", "Elevated", "Informational")
+    c2.metric("Top pattern", "Meetings", "Appeared 6 times")
+    c3.metric("Helpful action", "Walk", "4 positive reflections")
+    c4.metric("Trend", "Improving", "Across 7 days")
 
-# ----------------- APP SYSTEM -----------------
-else:
-    # Navigation sidebar
-    st.sidebar.title("☁️ AnonyMust Menu")
-    st.sidebar.write(f"Welcome, **{st.session_state.user_name}**!")
-    
-    view_selection = st.sidebar.radio(
-        "Navigate to:",
-        ["Home & Feed", "Post Anonymously", "Insights & Patterns", "Settings"]
-    )
-    
-    if st.sidebar.button("Logout 🚪", use_container_width=True):
-        st.session_state.authenticated = False
-        st.session_state.auth_step = "welcome"
-        st.session_state.user_name = None
-        st.session_state.phone_number = None
-        st.session_state.signup_data = None
-        st.session_state.mock_otp = None
-        st.rerun()
+    st.markdown("### What your reflections suggest")
+    st.info("✦ Short recovery activities appear to help you move from elevated to regulated.")
+    st.info("✦ Workload intensity seems higher on meeting-heavy days.")
 
-    # Render views
-    if view_selection == "Home & Feed":
-        st.markdown("""
-        <div class="hero-card">
-            <div class="eyebrow">Revived Streamlit App</div>
-            <div class="hero-title">Anonymous support built for stressful workdays.</div>
-            <div class="hero-desc">Express what happened, get a soft next step, and notice patterns before burnout gets louder.</div>
-            <div>
-                <span class="chip">Private by default</span>
-                <span class="chip">2-minute check-ins</span>
-                <span class="chip">Warm AI nudges</span>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Pulse calculation
-        with get_db() as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT score FROM checkins ORDER BY created_at DESC LIMIT 1")
-            latest_score_row = cursor.fetchone()
-            pulse_score = latest_score_row[0] if latest_score_row else 68
-            
-            cursor.execute("SELECT COUNT(*) FROM posts")
-            posts_count = cursor.fetchone()[0]
+# NAV 5: PRIVACY CENTER
+elif nav_page == "♢ Privacy center":
+    st.markdown("""
+    <div class="card-box" style="background: linear-gradient(135deg, #f1fbf4, #ffffff); border-color: #dcefe2;">
+        <div class="eyebrow-text" style="color:#2e805c;">Your control center</div>
+        <h2 style="font-size:26px; margin:8px 0 6px;">Privacy should feel simple.</h2>
+        <p style="color:#77837d; font-size:14px; margin:0;">AnonyMust is designed around anonymity. You decide what stays private, what becomes part of the community, and when you want a reminder.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-        # Pulse indicators
-        st.markdown("### Today’s Pulse")
-        st.progress(pulse_score / 100.0)
-        
-        col1, col2 = st.columns(2)
-        col1.metric("Pulse Score", f"{pulse_score}%", "Calmer than Monday")
-        col2.metric("Nudges Completed", posts_count)
-        
-        st.markdown("""
-        <div class="card" style="display:flex; gap:12px; align-items:flex-start;">
-            <div style="font-size:24px;">☁️</div>
-            <div>
-                <strong>Micro-intervention</strong>
-                <p style="font-size:12px; margin-top:4px; color:#6f6b64;">Take one slow breath in for four counts, out for six. Then write the one thing you can postpone today.</p>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown("### Community Moments (Anonymous Feed)")
-        
-        with get_db() as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM posts ORDER BY created_at DESC")
-            posts = cursor.fetchall()
-            
-            for post in posts:
-                st.markdown(f"""
-                <div class="card">
-                    <div class="post-header">
-                        <div class="avatar-role">
-                            <div class="avatar">{post['avatar']}</div>
-                            <div>
-                                <span class="role-text">{post['role']}</span><br/>
-                                <span class="time-text">{post['mood']}</span>
-                            </div>
-                        </div>
-                        <span class="chip">{post['category']}</span>
-                    </div>
-                    <p style="font-size:14px; margin-bottom:8px;">{post['content']}</p>
-                    <div class="ai-note">{post['ai_note']}</div>
-                </div>
-                """, unsafe_allow_html=True)
-
-    elif view_selection == "Post Anonymously":
-        st.markdown("### Post Anonymously")
-        st.write("Share how you are feeling, completely company-safe.")
-        
-        category = st.selectbox(
-            "Select Category",
-            ["workload", "meetings", "team culture", "recognition"]
-        )
-        
-        content = st.text_area(
-            "What happened today? You can be honest here.",
-            placeholder="Type your release note..."
-        )
-        
-        mood = st.select_slider(
-            "Select Mood",
-            options=["sad", "tense", "frustrated", "steady", "hopeful"],
-            value="tense"
-        )
-        
-        mood_emojis = {
-            "sad": "😔",
-            "tense": "😮‍💨",
-            "frustrated": "😤",
-            "steady": "😌",
-            "hopeful": "🙂"
-        }
-        
-        if st.button("Post & Get Support", type="primary"):
-            if not content.strip():
-                st.warning("Please type a short note before posting.")
-            else:
-                roles = [
-                    ("Ops Team", "A"),
-                    ("Product Circle", "P"),
-                    ("Design Group", "D"),
-                    ("Dev Lead", "S"),
-                    ("Marketing Hub", "M")
-                ]
-                role_name, avatar_letter = random.choice(roles)
-                ai_note = get_ai_reflection(content, mood)
-                
-                with get_db() as conn:
-                    conn.execute(
-                        "INSERT INTO posts (content, mood, category, role, avatar, ai_note) VALUES (?, ?, ?, ?, ?, ?)",
-                        (content, mood_emojis[mood] + " " + mood, category, role_name, avatar_letter, ai_note)
-                    )
-                    
-                    score_map = {"sad": 20, "tense": 45, "frustrated": 30, "steady": 70, "hopeful": 90}
-                    conn.execute("INSERT INTO checkins (score) VALUES (?)", (score_map[mood],))
-                    conn.commit()
-                    
-                st.success("Post submitted anonymously!")
-                st.markdown(f"""
-                <div class="toast-container">
-                    <strong>Support ready</strong>
-                    <p style="font-size:12px; margin-top:4px; color:#6f6b64;">{ai_note}</p>
-                </div>
-                """, unsafe_allow_html=True)
-
-    elif view_selection == "Insights & Patterns":
-        st.markdown("### Insights & Patterns")
-        
-        with get_db() as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT score, created_at FROM checkins ORDER BY created_at ASC LIMIT 7")
-            checkin_rows = cursor.fetchall()
-            
-        if checkin_rows:
-            scores = [row['score'] for row in checkin_rows]
-            st.write("Weekly stress recovery indicator:")
-            st.bar_chart(scores)
-            
-        st.markdown("### Weekly Triggers & Habits")
-        st.markdown("""
-        <div class="card">
-            <strong>Trigger:</strong> Role ambiguity shows up in 4 of 7 entries.
-        </div>
-        <div class="card">
-            <strong>Best intervention:</strong> Short breathing resets had the highest completion this week.
-        </div>
-        <div class="card">
-            <strong>Protective habit:</strong> A two-line journal note after hard calls lowers next-check-in intensity.
-        </div>
-        """, unsafe_allow_html=True)
-
-    elif view_selection == "Settings":
-        st.markdown("### Settings")
-        
-        st.toggle("Dark Mode (Softer late-night reading)", value=False)
-        st.toggle("Gentle reminders (Only when stress is rising)", value=True)
-        
-        st.markdown("""
-        <div class="card">
-            <strong>Privacy language:</strong>
-            <p style="font-size:12px; margin-top:4px; color:#6f6b64;">No names in posts. Patterns are shown in aggregate. The tone is built to feel safe, corporate, and warm at the same time.</p>
-        </div>
-        """, unsafe_allow_html=True)
+    st.markdown("### Preferences")
+    st.toggle("Daily check-in reminder (Every day at 8:30 PM)", value=True)
+    st.toggle("Calendar-based nudges (Suggest a reset after meeting-heavy days)", value=True)
+    st.toggle("Personalized AI analysis (Use private entries to surface patterns)", value=True)
