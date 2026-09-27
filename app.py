@@ -6,12 +6,12 @@ import random
 # Page Config - Forced Expanded Sidebar Drawer by default
 st.set_page_config(
     page_title="AnonyMust — Wellness Dashboard",
-    page_icon="✦",
+    page_icon="✨",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS matching the new Dashboard design & forcing Sidebar ALWAYS visible on launch
+# Custom CSS matching the new Dashboard design & Dark Mode support
 st.markdown("""
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,17 +32,33 @@ st.markdown("""
       --coral: #ffd9cf;
     }
 
+    /* Dark Mode Auto-Adaptation */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121816;
+        --surface: #1a2420;
+        --ink: #e8ede9;
+        --muted: #94a39b;
+        --line: #26332d;
+        --mint: #1f4735;
+        --mint2: #163327;
+        --green: #44be8a;
+        --dark: #0d1713;
+        --lav: #2d263b;
+      }
+    }
+
     html, body, [data-testid="stAppViewContainer"] {
         font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-        background-color: var(--bg);
-        color: var(--ink);
+        background-color: var(--bg) !important;
+        color: var(--ink) !important;
     }
     
     /* FORCE STREAMLIT SIDEBAR TO BE ALWAYS EXPANDED AND VISIBLE ON LAUNCH */
     [data-testid="stSidebar"], section[data-testid="stSidebar"] {
-        background-color: #ffffff !important;
+        background-color: var(--surface) !important;
         border-right: 1px solid var(--line) !important;
-        min-width: 260px !important;
+        min-width: 270px !important;
         transform: none !important;
         margin-left: 0 !important;
         visibility: visible !important;
@@ -51,7 +67,33 @@ st.markdown("""
         left: 0 !important;
     }
 
-    /* Hide the collapse/expand toggle controls to keep sidebar permanently visible */
+    /* Hide standard radio circles to transform radio list into sleek nav pills */
+    div[data-testid="stSidebar"] div[role="radiogroup"] > label > div:first-child {
+        display: none !important;
+    }
+    div[data-testid="stSidebar"] div[role="radiogroup"] > label {
+        padding: 10px 14px !important;
+        border-radius: 12px !important;
+        margin-bottom: 5px !important;
+        transition: all 0.18s ease !important;
+        cursor: pointer !important;
+        font-weight: 600 !important;
+        color: var(--ink) !important;
+        border: 1px solid transparent !important;
+    }
+    div[data-testid="stSidebar"] div[role="radiogroup"] > label:hover {
+        background: var(--mint2) !important;
+        color: var(--green) !important;
+        border-color: var(--line) !important;
+    }
+    div[data-testid="stSidebar"] div[role="radiogroup"] > label[aria-checked="true"] {
+        background: var(--mint2) !important;
+        color: var(--green) !important;
+        font-weight: 700 !important;
+        border-color: var(--line) !important;
+    }
+
+    /* Hide the collapse/expand toggle controls */
     [data-testid="stSidebarCollapseButton"],
     [data-testid="collapsedControl"],
     [data-testid="stSidebarCollapsedControl"],
@@ -120,8 +162,9 @@ st.markdown("""
         border: 1px solid var(--line);
         border-radius: 18px;
         padding: 20px;
-        box-shadow: 0 10px 30px rgba(25, 50, 38, .06);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .04);
         margin-bottom: 18px;
+        color: var(--ink);
     }
     .metric-label {
         font-size: 13px;
@@ -133,6 +176,7 @@ st.markdown("""
         font-weight: 800;
         margin: 8px 0 4px;
         letter-spacing: -.04em;
+        color: var(--ink);
     }
     .metric-delta {
         font-size: 12px;
@@ -172,12 +216,12 @@ st.markdown("""
         font-weight: 700;
     }
     .privacy-card {
-        background: #f4faf5;
-        border: 1px solid #d8eee0;
+        background: var(--mint2);
+        border: 1px solid var(--line);
         border-radius: 14px;
         padding: 15px;
         font-size: 12px;
-        color: #557063;
+        color: var(--muted);
         line-height: 1.45;
     }
 </style>
@@ -229,7 +273,7 @@ def init_db():
 
 init_db()
 
-# Sidebar Brand
+# Sidebar Brand & Aesthetic Nav Pills
 st.sidebar.markdown("""
 <div class="brand-header">
     <div class="brandmark">✦</div>
@@ -239,14 +283,14 @@ st.sidebar.markdown("""
 
 nav_page = st.sidebar.radio(
     "Navigation",
-    ["◉ Overview", "✎ My journal", "☵ Anonymous feed", "◒ AI insights", "♢ Privacy center"],
+    ["📊  Overview", "✍️  My journal", "💬  Anonymous feed", "💡  AI insights", "🛡️  Privacy center"],
     index=0
 )
 
 st.sidebar.markdown("""
 <br/>
 <div class="privacy-card">
-    <strong style="color:#2e805c;">Private by design</strong>
+    <strong style="color:var(--green);">Private by design</strong><br/>
     Your identity is never attached to a journal entry. You are in control.
 </div>
 """, unsafe_allow_html=True)
@@ -255,13 +299,13 @@ st.sidebar.markdown("""
 current_date_str = datetime.datetime.now().strftime("%A, %B %d")
 st.markdown(f"""
 <div style="margin-bottom: 20px;">
-    <div style="font-size:12px; color:#77837d; font-weight:700; text-transform:uppercase; letter-spacing:.12em;">{current_date_str}</div>
-    <h1 style="font-size:30px; letter-spacing:-.03em; margin: 4px 0 0;">Good morning, Anon 👋</h1>
+    <div style="font-size:12px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.12em;">{current_date_str}</div>
+    <h1 style="font-size:30px; letter-spacing:-.03em; margin: 4px 0 0; color:var(--ink);">Good morning, Anon 👋</h1>
 </div>
 """, unsafe_allow_html=True)
 
 # NAV 1: OVERVIEW
-if nav_page == "◉ Overview":
+if nav_page == "📊  Overview":
     st.markdown("""
     <div class="hero-banner">
         <div class="eyebrow-text">Your daily reset</div>
@@ -333,8 +377,8 @@ if nav_page == "◉ Overview":
                 <div class="post-item">
                     <div class="post-icon">✦</div>
                     <div style="flex:1;">
-                        <p style="margin:0; font-size:14px;">“{entry['content']}”</p>
-                        <small style="color:#77837d;">Private entry</small>
+                        <p style="margin:0; font-size:14px; color:var(--ink);">“{entry['content']}”</p>
+                        <small style="color:var(--muted);">Private entry</small>
                     </div>
                     <span class="tag-chip">{entry['mood']}</span>
                 </div>
@@ -342,14 +386,14 @@ if nav_page == "◉ Overview":
 
     with col_sugg:
         st.markdown("""
-        <div class="card-box" style="background:#e6def8; border:0;">
+        <div class="card-box" style="background:var(--lav); border:0;">
             <h3 style="margin:0 0 8px;">One gentle suggestion</h3>
             <p style="font-size:13px; color:#5b5572; line-height:1.5;">You’ve had several meeting-heavy days. Try a 5-minute screen-free reset before your next call.</p>
         </div>
         """, unsafe_allow_html=True)
 
 # NAV 2: MY JOURNAL
-elif nav_page == "✎ My journal":
+elif nav_page == "✍️  My journal":
     st.markdown("""
     <div class="hero-banner">
         <div class="eyebrow-text">Private journal</div>
@@ -384,18 +428,18 @@ elif nav_page == "✎ My journal":
                 <div class="post-item">
                     <div class="post-icon">✦</div>
                     <div>
-                        <p style="margin:0; font-size:14px;">{entry['content']}</p>
-                        <small style="color:#77837d;">{entry['mood']}</small>
+                        <p style="margin:0; font-size:14px; color:var(--ink);">{entry['content']}</p>
+                        <small style="color:var(--muted);">{entry['mood']}</small>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
 
 # NAV 3: ANONYMOUS FEED
-elif nav_page == "☵ Anonymous feed":
+elif nav_page == "💬  Anonymous feed":
     st.markdown("""
-    <div class="card-box" style="background:#e9f8ee; border-color:#d8eee0;">
-        <strong style="color:#2e805c;">Community, without the identity</strong>
-        <p style="margin:4px 0 0; color:#557063; font-size:13px;">This feed is ephemeral and AI-moderated. Be kind, avoid identifying details, and remember that peer support is not professional care.</p>
+    <div class="card-box" style="background:var(--mint2); border-color:var(--line);">
+        <strong style="color:var(--green);">Community, without the identity</strong>
+        <p style="margin:4px 0 0; color:var(--muted); font-size:13px;">This feed is ephemeral and AI-moderated. Be kind, avoid identifying details, and remember that peer support is not professional care.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -417,8 +461,8 @@ elif nav_page == "☵ Anonymous feed":
             <div class="card-box">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                     <div>
-                        <p style="margin:0 0 8px; font-size:14px; line-height:1.45;">“{post['content']}”</p>
-                        <small style="color:#77837d;">Anonymous · {post['likes']} ♡ · {post['replies']} supportive replies</small>
+                        <p style="margin:0 0 8px; font-size:14px; line-height:1.45; color:var(--ink);">“{post['content']}”</p>
+                        <small style="color:var(--muted);">Anonymous · {post['likes']} ♡ · {post['replies']} supportive replies</small>
                     </div>
                     <span class="tag-chip">{post['tag']}</span>
                 </div>
@@ -426,7 +470,7 @@ elif nav_page == "☵ Anonymous feed":
             """, unsafe_allow_html=True)
 
 # NAV 4: AI INSIGHTS
-elif nav_page == "◒ AI insights":
+elif nav_page == "💡  AI insights":
     st.markdown("""
     <div class="hero-banner">
         <div class="eyebrow-text">AI analysis</div>
@@ -446,12 +490,12 @@ elif nav_page == "◒ AI insights":
     st.info("✦ Workload intensity seems higher on meeting-heavy days.")
 
 # NAV 5: PRIVACY CENTER
-elif nav_page == "♢ Privacy center":
+elif nav_page == "🛡️  Privacy center":
     st.markdown("""
-    <div class="card-box" style="background: linear-gradient(135deg, #f1fbf4, #ffffff); border-color: #dcefe2;">
-        <div class="eyebrow-text" style="color:#2e805c;">Your control center</div>
-        <h2 style="font-size:26px; margin:8px 0 6px;">Privacy should feel simple.</h2>
-        <p style="color:#77837d; font-size:14px; margin:0;">AnonyMust is designed around anonymity. You decide what stays private, what becomes part of the community, and when you want a reminder.</p>
+    <div class="card-box" style="background: var(--surface); border-color: var(--line);">
+        <div class="eyebrow-text" style="color:var(--green);">Your control center</div>
+        <h2 style="font-size:26px; margin:8px 0 6px; color:var(--ink);">Privacy should feel simple.</h2>
+        <p style="color:var(--muted); font-size:14px; margin:0;">AnonyMust is designed around anonymity. You decide what stays private, what becomes part of the community, and when you want a reminder.</p>
     </div>
     """, unsafe_allow_html=True)
 

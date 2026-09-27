@@ -24,6 +24,37 @@
   --shadow: 0 10px 30px rgba(25, 50, 38, .06);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121816;
+    --surface: #1a2420;
+    --ink: #e8ede9;
+    --muted: #94a39b;
+    --line: #26332d;
+    --mint: #1f4735;
+    --mint2: #163327;
+    --green: #44be8a;
+    --dark: #0d1713;
+    --lav: #2d263b;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .2);
+  }
+
+  .sidebar {
+    background: #1a2420 !important;
+  }
+
+  .input {
+    background: #141c19 !important;
+    color: #e8ede9 !important;
+  }
+
+  .privacy {
+    background: #162a21 !important;
+    border-color: #234537 !important;
+    color: #9eb8ac !important;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -45,7 +76,7 @@ button, input, textarea {
 }
 
 .sidebar {
-  width: 242px;
+  width: 250px;
   background: #ffffff;
   border-right: 1px solid var(--line);
   padding: 26px 17px;
@@ -83,25 +114,24 @@ button, input, textarea {
 }
 
 .nav button {
-  border: 0;
+  border: 1px solid transparent;
   background: transparent;
-  color: #718079;
+  color: var(--muted);
   text-align: left;
   padding: 12px 14px;
-  border-radius: 11px;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
-  transition: all 0.15s ease;
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .nav button.active, .nav button:hover {
   background: var(--mint2);
   color: var(--green);
-}
-
-.nav svg {
-  vertical-align: -3px;
-  margin-right: 10px;
+  border-color: var(--line);
 }
 
 .side-bottom {
@@ -150,6 +180,7 @@ button, input, textarea {
   font-size: 30px;
   letter-spacing: -.03em;
   margin: 6px 0 0;
+  color: var(--ink);
 }
 
 .actions {
@@ -162,11 +193,11 @@ button, input, textarea {
   height: 40px;
   width: 40px;
   border: 1px solid var(--line);
-  background: #ffffff;
+  background: var(--surface);
   border-radius: 12px;
   display: grid;
   place-items: center;
-  color: #617069;
+  color: var(--muted);
   cursor: pointer;
 }
 
@@ -258,6 +289,7 @@ button, input, textarea {
   border-radius: 18px;
   padding: 20px;
   box-shadow: var(--shadow);
+  color: var(--ink);
 }
 
 .metric .label {
@@ -271,6 +303,7 @@ button, input, textarea {
   font-weight: 800;
   margin: 12px 0 8px;
   letter-spacing: -.04em;
+  color: var(--ink);
 }
 
 .delta {
@@ -297,6 +330,7 @@ button, input, textarea {
 .section-head h3 {
   font-size: 16px;
   margin: 0;
+  color: var(--ink);
 }
 
 .link {
@@ -321,7 +355,7 @@ button, input, textarea {
 .axis {
   position: absolute;
   inset: 15px 0 25px 28px;
-  background: repeating-linear-gradient(to bottom, transparent 0, transparent 51px, #edf1ee 52px);
+  background: repeating-linear-gradient(to bottom, transparent 0, transparent 51px, var(--line) 52px);
 }
 
 .bars {
@@ -369,7 +403,7 @@ button, input, textarea {
   width: 145px;
   height: 145px;
   border-radius: 50%;
-  background: conic-gradient(var(--green) 0 64%, var(--mint) 64% 86%, #e8ede9 86%);
+  background: conic-gradient(var(--green) 0 64%, var(--mint) 64% 86%, var(--line) 86%);
   position: relative;
 }
 
@@ -378,7 +412,8 @@ button, input, textarea {
   position: absolute;
   inset: 25px;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--surface);
+  color: var(--ink);
   display: grid;
   place-items: center;
   font-size: 25px;
@@ -406,7 +441,7 @@ button, input, textarea {
 }
 
 .legend .l {
-  background: #e8ede9;
+  background: var(--line);
 }
 
 .feed {
@@ -441,6 +476,7 @@ button, input, textarea {
   margin: 0 0 6px;
   font-size: 14px;
   line-height: 1.45;
+  color: var(--ink);
 }
 
 .post small {
@@ -458,12 +494,6 @@ button, input, textarea {
   white-space: nowrap;
 }
 
-.checkin {
-  display: flex;
-  gap: 18px;
-  align-items: center;
-}
-
 .mood {
   display: flex;
   gap: 10px;
@@ -474,7 +504,7 @@ button, input, textarea {
   width: 43px;
   height: 43px;
   border: 1px solid var(--line);
-  background: #ffffff;
+  background: var(--surface);
   border-radius: 13px;
   cursor: pointer;
   font-size: 21px;
@@ -503,9 +533,9 @@ button, input, textarea {
 }
 
 .secondary {
-  background: #ffffff;
+  background: var(--surface);
   color: var(--green);
-  border: 1px solid #cfe5d6;
+  border: 1px solid var(--line);
   border-radius: 11px;
   padding: 11px 15px;
   font-weight: 750;
@@ -517,13 +547,14 @@ button, input, textarea {
   border: 1px solid var(--line);
   border-radius: 11px;
   padding: 12px;
-  background: #fbfcfb;
+  background: var(--bg);
+  color: var(--ink);
   outline: none;
   font-family: inherit;
 }
 
 .input:focus {
-  border-color: #9ed7b6;
+  border-color: var(--green);
 }
 
 .journal {
@@ -538,6 +569,7 @@ button, input, textarea {
 
 .insight h3 {
   margin: 0 0 9px;
+  color: #2b2342;
 }
 
 .insight p {
@@ -548,8 +580,8 @@ button, input, textarea {
 }
 
 .privacy-page {
-  background: linear-gradient(135deg, #f1fbf4, #ffffff);
-  border: 1px solid #dcefe2;
+  background: linear-gradient(135deg, var(--mint2), var(--surface));
+  border: 1px solid var(--line);
 }
 
 .privacy-grid {
@@ -585,7 +617,7 @@ button, input, textarea {
 }
 
 .toggle.off {
-  background: #c5d1cb;
+  background: var(--muted);
 }
 
 .toggle i {
@@ -632,10 +664,8 @@ button, input, textarea {
     padding: 0 12px 30px;
   }
   .nav button {
-    text-align: center;
-  }
-  .nav svg {
-    margin: 0;
+    justify-content: center;
+    padding: 12px;
   }
   .content {
     padding: 24px;
@@ -685,11 +715,11 @@ button, input, textarea {
 <aside class="sidebar">
   <div class="brand"><div class="brandmark">✦</div><span>AnonyMust</span></div>
   <nav class="nav">
-    <button class="active" data-page="home">◉ <span>Overview</span></button>
-    <button data-page="journal">✎ <span>My journal</span></button>
-    <button data-page="feed">☵ <span>Anonymous feed</span></button>
-    <button data-page="insights">◒ <span>AI insights</span></button>
-    <button data-page="privacy">♢ <span>Privacy center</span></button>
+    <button class="active" data-page="home"><span>📊</span> <span>Overview</span></button>
+    <button data-page="journal"><span>✍️</span> <span>My journal</span></button>
+    <button data-page="feed"><span>💬</span> <span>Anonymous feed</span></button>
+    <button data-page="insights"><span>💡</span> <span>AI insights</span></button>
+    <button data-page="privacy"><span>🛡️</span> <span>Privacy center</span></button>
   </nav>
   <div class="side-bottom">
     <div class="privacy">
@@ -883,8 +913,8 @@ button, input, textarea {
       </div>
       <button class="primary" data-page-jump="journal">Write a rant</button>
     </div>
-    <div class="card" style="margin-bottom:18px;background:var(--mint2);border-color:#d8eee0">
-      <p style="margin:0;color:#557063;font-size:13px">This feed is ephemeral and AI-moderated. Be kind, avoid identifying details, and remember that peer support is not professional care.</p>
+    <div class="card" style="margin-bottom:18px;background:var(--mint2);border-color:var(--line)">
+      <p style="margin:0;color:var(--muted);font-size:13px">This feed is ephemeral and AI-moderated. Be kind, avoid identifying details, and remember that peer support is not professional care.</p>
     </div>
     <div class="feed card" id="communityFeed">
       <div class="post">
