@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS matching the new Dashboard design
+# Custom CSS matching the new Dashboard design & forcing Sidebar ALWAYS visible on launch
 st.markdown("""
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,13 +38,29 @@ st.markdown("""
         color: var(--ink);
     }
     
-    [data-testid="stSidebar"] {
-        background-color: #ffffff;
-        border-right: 1px solid var(--line);
+    /* FORCE STREAMLIT SIDEBAR TO BE ALWAYS EXPANDED AND VISIBLE ON LAUNCH */
+    [data-testid="stSidebar"], section[data-testid="stSidebar"] {
+        background-color: #ffffff !important;
+        border-right: 1px solid var(--line) !important;
         min-width: 260px !important;
+        transform: none !important;
+        margin-left: 0 !important;
+        visibility: visible !important;
+        display: flex !important;
+        opacity: 1 !important;
+        left: 0 !important;
     }
 
-    /* Force Streamlit sidebar toggle button behavior if needed */
+    /* Hide the collapse/expand toggle controls to keep sidebar permanently visible */
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="collapsedControl"],
+    [data-testid="stSidebarCollapsedControl"],
+    button[aria-label="Collapse sidebar"],
+    button[aria-label="Expand sidebar"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
     [data-testid="stSidebarNav"] {
         display: none;
     }
