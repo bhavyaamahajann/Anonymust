@@ -1,15 +1,18 @@
 # AnonyMust ☁️
 > **Safe release, gentle recovery.**
 
+🔗 **Live Application URL**: [https://anonymust-gumkohxcvhahmat24j2puw.streamlit.app/](https://anonymust-gumkohxcvhahmat24j2puw.streamlit.app/)
+
 AnonyMust is a premium mental health and anonymous support utility designed to help professionals express workload struggles, receive warm AI reflection support, and log daily pulse trends before burnout escalates.
 
 This repository contains two implementations of the project UI/UX:
-1. **Python Streamlit App**: Configured for instant deployment and hosting on [Streamlit Community Cloud](https://streamlit.io/).
+1. **Python Streamlit App**: Configured for instant deployment and hosting on [Streamlit Community Cloud](https://anonymust-gumkohxcvhahmat24j2puw.streamlit.app/).
 2. **React + Express + SQLite App**: A full-stack mobile-optimized Web App with modular components, JWT authorization, and local SQLite persistence.
 
 ---
 
 ## Key Features
+- **Modern Wellness Dashboard**: Left sidebar navigation (`Overview`, `My journal`, `Anonymous feed`, `AI insights`, `Privacy center`) with interactive mood tracking and micro-interventions.
 - **Teal Sheet Authenticated Portal**: Log In / Sign Up flows matching the brand mockup, supporting both standard Email/Password credentials and Phone verification with OTP.
 - **Anonymous Community Feed**: Release stressful moments completely company-safe under randomized anonymous roles (e.g. Ops Team, Product Circle) and color-coded mood chips.
 - **Warm AI Reflections**: Integrated contextual support that automatically reflects on your submitted notes based on tone (tense, frustrated, sad, hopeful, steady) to recommend actionable, tiny recovery steps.
@@ -23,6 +26,8 @@ This repository contains two implementations of the project UI/UX:
 Anonymust/
 ├── app.py                # Python Streamlit Application
 ├── requirements.txt      # Python dependencies for Streamlit
+├── index.html            # Static Single-Page Prototype HTML
+├── login.html            # Static Login/Signup Prototype HTML
 ├── frontend/             # Vite + React Mobile-Shell Frontend
 │   ├── src/
 │   │   ├── contexts/     # AuthContext (JWT/OTP), ThemeContext (Light/Dark Mode)
@@ -39,11 +44,20 @@ Anonymust/
 
 ---
 
-## Getting Started
+## Live Links & Deployment
+
+### Streamlit Community Cloud
+- **Live Streamlit App**: [https://anonymust-gumkohxcvhahmat24j2puw.streamlit.app/](https://anonymust-gumkohxcvhahmat24j2puw.streamlit.app/)
+
+### GitHub Pages (For static UI preview)
+- Live Dashboard: [https://bhavyaamahajann.github.io/Anonymust/index.html](https://bhavyaamahajann.github.io/Anonymust/index.html)
+- Live Auth screens: [https://bhavyaamahajann.github.io/Anonymust/login.html](https://bhavyaamahajann.github.io/Anonymust/login.html)
+
+---
+
+## Getting Started Locally
 
 ### Option A: Running the Streamlit App (Fast & Lightweight)
-The Streamlit app is ready for cloud hosting and uses an SQLite backend out-of-the-box.
-
 1. Install requirements:
    ```bash
    pip install -r requirements.txt
@@ -83,19 +97,3 @@ The Streamlit app is ready for cloud hosting and uses an SQLite backend out-of-t
    npm run dev
    ```
 4. Open the browser and visit `http://localhost:5173`.
-
----
-
-## Deployment
-
-### Streamlit Community Cloud (streamlit.io)
-Deploy the Python app directly from your GitHub repository:
-1. Connect your GitHub account to [Streamlit Share](https://share.streamlit.io/).
-2. Create a new app and link to this repository (`bhavyaamahajann/Anonymust`).
-3. Set the Branch to `main` and the Main file path to `app.py`.
-4. Click **Deploy**.
-
-### GitHub Pages (For static UI preview)
-Deploy static HTML versions from the main repository branch under the Pages settings on GitHub.
-- Live Dashboard: `https://bhavyaamahajann.github.io/Anonymust/index.html`
-- Live Auth screens: `https://bhavyaamahajann.github.io/Anonymust/login.html`
