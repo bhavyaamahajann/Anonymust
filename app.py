@@ -3,11 +3,12 @@ import sqlite3
 import datetime
 import random
 
-# Page Config
+# Page Config - Forced Expanded Sidebar Drawer by default
 st.set_page_config(
     page_title="AnonyMust — Wellness Dashboard",
     page_icon="✦",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 # Custom CSS matching the new Dashboard design
@@ -40,6 +41,12 @@ st.markdown("""
     [data-testid="stSidebar"] {
         background-color: #ffffff;
         border-right: 1px solid var(--line);
+        min-width: 260px !important;
+    }
+
+    /* Force Streamlit sidebar toggle button behavior if needed */
+    [data-testid="stSidebarNav"] {
+        display: none;
     }
 
     .brand-header {
